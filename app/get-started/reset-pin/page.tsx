@@ -34,29 +34,24 @@ export default function Page() {
     borderLeftWidth: 0,
     borderRightWidth: 0,
     borderBottomWidth: 3,
-    borderBottomStyle: "solid",
+    borderBottomStyle: "solid" as const,
     borderBottomColor: activeTab === tab ? "#025fc9" : "transparent",
     color: activeTab === tab ? "#025fc9" : "#5e5757",
     fontSize: 16,
     fontWeight: 500,
     background: "none",
-    cursor: "pointer",
+    cursor: "pointer" as const,
     fontFamily: "inherit",
   });
 
   return (
-    <div
-      className="min-h-screen bg-white flex flex-col"
-      style={{ fontFamily: "'Switzer', sans-serif" }}
-    >
+    <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Switzer', sans-serif" }}>
+
       {/* ── MAIN ── */}
       <div className="relative flex-1 w-full" style={{ minHeight: 900 }}>
 
         {/* LEFT */}
-        <div
-          className="absolute flex flex-col"
-          style={{ left: "clamp(24px, 3.9vw, 56px)", top: 85, width: "clamp(300px, 37.3vw, 537px)", gap: 33 }}
-        >
+        <div className="absolute flex flex-col" style={{ left: "clamp(24px, 3.9vw, 56px)", top: 85, width: "clamp(300px, 37.3vw, 537px)", gap: 33 }}>
           <div style={{ position: "relative", width: 232, height: 40 }}>
             <Image src="/images/logo.png" alt="OneSyncID" fill priority sizes="232px" className="object-contain object-left" />
           </div>
@@ -88,7 +83,7 @@ export default function Page() {
                   Type your registered phone or email to reset your PIN.
                 </p>
 
-                {/* Tabs */}
+                {/* Phone / Email tabs */}
                 <div style={{ display: "flex", border: "1px solid #d9d9d9", borderRadius: 12, padding: "8px 16px", alignItems: "center" }}>
                   <button type="button" onClick={() => setActiveTab("phone")} style={tabStyle("phone")}>
                     <Phone size={20} color={activeTab === "phone" ? "#025fc9" : "#5e5757"} /> Phone
@@ -101,7 +96,9 @@ export default function Page() {
                 {/* Phone input */}
                 {activeTab === "phone" && (
                   <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                    <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>PHONE NUMBER</p>
+                    <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>
+                      PHONE NUMBER
+                    </p>
                     <div style={{ height: 44, display: "flex", alignItems: "center", gap: 8, borderBottom: "1px solid #d9d9d9", position: "relative" }}>
                       <button
                         type="button"
@@ -120,7 +117,7 @@ export default function Page() {
                               key={c.dialCode}
                               type="button"
                               onClick={() => { setSelectedCountry(c); setCountryOpen(false); }}
-                              style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "10px 16px", background: selectedCountry.dialCode === c.dialCode ? "rgba(2,95,201,0.05)" : "none", border: "none", cursor: "pointer", fontSize: 14, color: "#333", fontFamily: "inherit", textAlign: "left" }}
+                              style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "10px 16px", background: selectedCountry.dialCode === c.dialCode ? "rgba(2,95,201,0.05)" : "none", border: "none", cursor: "pointer", fontSize: 14, color: "#333", fontFamily: "inherit", textAlign: "left" as const }}
                             >
                               <span>{c.flag}</span>
                               <span>{c.dialCode}</span>
@@ -160,7 +157,10 @@ export default function Page() {
                 {/* Need help */}
                 <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
                   <span style={{ fontSize: 14, color: "#333" }}>Need help?</span>
-                  <button type="button" style={{ fontSize: 14, fontWeight: 500, color: "#0052b4", background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}>
+                  <button
+                    type="button"
+                    style={{ fontSize: 14, fontWeight: 500, color: "#0052b4", background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}
+                  >
                     Contact Support
                   </button>
                 </div>
@@ -178,7 +178,11 @@ export default function Page() {
 
             {/* Back */}
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <button type="button" onClick={() => router.back()} style={{ fontSize: 16, color: "#5e5757", background: "none", border: "none", cursor: "pointer", fontFamily: "inherit" }}>
+              <button
+                type="button"
+                onClick={() => router.back()}
+                style={{ fontSize: 16, color: "#5e5757", background: "none", border: "none", cursor: "pointer", fontFamily: "inherit" }}
+              >
                 Back
               </button>
             </div>
