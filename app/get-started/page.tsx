@@ -195,7 +195,9 @@ export default function Page() {
                 </label>
                 <button
                   type="button"
-                  onClick={() => { if (activeTab === "pin") router.push("/get-started/reset-pin"); }}
+                  onClick={() => { if (activeTab === "pin") router.push("/get-started/reset-pin");
+                    else router.push("/get-started/reset-password");
+                   }}
                   style={{ fontSize: 14, color: "#0052b4", background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}
                 >
                   {activeTab === "password" ? "Forgot password?" : "Forgot PIN?"}

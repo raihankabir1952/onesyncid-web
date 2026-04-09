@@ -34,7 +34,7 @@ function MergeSuccessContent() {
           </div>
           <button
             type="button"
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/get-started")}
             style={{ width: "100%", height: 48, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, borderRadius: 8, border: "none", cursor: "pointer" }}
           >
             Sign In Now
