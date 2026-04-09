@@ -79,6 +79,7 @@ export default function PersonalAccountPage() {
                 Already have an account?{" "}
                 <button
                   type="button"
+                  onClick={() => router.push("/merge")}
                   style={{ color: "#025fc9", fontWeight: 500, background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: 14 }}
                 >
                   Merge now

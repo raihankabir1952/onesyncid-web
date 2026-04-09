@@ -25,7 +25,7 @@ export default function OtpCard({ destination }: OtpCardProps) {
 
   const isComplete = otp.every((d) => d !== "");
 
-  // ✅ Auto-verify যখন 6th digit fill হবে
+  // ✅ Auto-verify when 6th digit filled
   useEffect(() => {
     if (!isComplete || status !== "idle") return;
 
@@ -38,6 +38,15 @@ export default function OtpCard({ destination }: OtpCardProps) {
 
     verify();
   }, [isComplete, otp, status]);
+
+  // ✅ Navigate to /create-account after success
+  useEffect(() => {
+    if (status !== "success") return;
+    const timer = setTimeout(() => {
+      router.push("/create-account");
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [status, router]);
 
   const handleTryAgain = () => {
     setOtp(Array(6).fill(""));

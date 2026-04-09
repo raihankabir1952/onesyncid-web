@@ -72,7 +72,7 @@ export default function PersonalAccountForm() {
     }
     setErrors({});
     // TODO: call API
-    console.log("Submit:", form, "via:", verifyMethod);
+    router.push("/get-started");
   };
 
   return (
@@ -193,7 +193,9 @@ export default function PersonalAccountForm() {
                 cursor: "pointer",
               }}
             >
-              {method === "email" ? <Mail size={20} color={verifyMethod === method ? "#025fc9" : "#5e5757"} /> : <Phone size={20} color={verifyMethod === method ? "#025fc9" : "#5e5757"} />}
+              {method === "email"
+                ? <Mail size={20} color={verifyMethod === method ? "#025fc9" : "#5e5757"} />
+                : <Phone size={20} color={verifyMethod === method ? "#025fc9" : "#5e5757"} />}
               <span style={{ fontSize: 16, fontWeight: 500, color: verifyMethod === method ? "#025fc9" : "#5e5757", letterSpacing: "0.16px" }}>
                 {method === "email" ? "Email OTP" : "Phone OTP"}
               </span>
@@ -210,8 +212,12 @@ export default function PersonalAccountForm() {
         <button type="button" style={{ fontSize: 12, color: "#025fc9", background: "none", border: "none", cursor: "pointer", padding: 0 }}>Privacy Policy</button>
       </p>
 
-      {/* Continue */}
-      <button type="button" onClick={handleSubmit} style={{ width: "100%", height: 48, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, borderRadius: 8, border: "none", cursor: "pointer" }}>
+      {/* Continue → /get-started */}
+      <button
+        type="button"
+        onClick={handleSubmit}
+        style={{ width: "100%", height: 48, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, borderRadius: 8, border: "none", cursor: "pointer" }}
+      >
         Continue
       </button>
 
@@ -220,7 +226,13 @@ export default function PersonalAccountForm() {
         <Info size={16} color="#025fc9" style={{ flexShrink: 0 }} />
         <p style={{ fontSize: 12, color: "#025fc9", letterSpacing: "0.12px", margin: 0, lineHeight: "16px" }}>
           Already have an account with another email?{" "}
-          <button type="button" style={{ fontSize: 12, fontWeight: 600, color: "#025fc9", background: "none", border: "none", cursor: "pointer", padding: 0 }}>Merge accounts</button>
+          <button
+            type="button"
+            onClick={() => router.push("/merge")}
+            style={{ fontSize: 12, fontWeight: 600, color: "#025fc9", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+          >
+            Merge accounts
+          </button>
         </p>
       </div>
 

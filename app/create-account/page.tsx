@@ -25,7 +25,7 @@ export default function CreateAccountPage() {
           </p>
         </div>
 
-        {/* RIGHT CARD — vertically centered, Organization tab active */}
+        {/* RIGHT CARD */}
         <div
           className="absolute bg-white flex flex-col"
           style={{
@@ -45,19 +45,22 @@ export default function CreateAccountPage() {
                 <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>Create your OneSyncID</p>
                 <p style={{ fontSize: 14, color: "#a09898", margin: 0 }}>
                   Already have an account?{" "}
-                  <button type="button" style={{ color: "#025fc9", fontWeight: 500, background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: 14 }}>
+                  <button
+                    type="button"
+                    onClick={() => router.push("/merge")}
+                    style={{ color: "#025fc9", fontWeight: 500, background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: 14 }}
+                  >
                     Merge now
                   </button>
                 </p>
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-                {/* Account type label */}
                 <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0 }}>ACCOUNT TYPE</p>
 
-                {/* Tabs — Personal navigates to /create-account/personal */}
+                {/* Tabs */}
                 <div style={{ display: "flex", alignItems: "center", borderWidth: 1, borderStyle: "solid", borderColor: "#d9d9d9", borderRadius: 12, paddingLeft: 16, paddingRight: 16, paddingTop: 8, paddingBottom: 8 }}>
-                  {/* Personal — click → navigate */}
+                  {/* Personal */}
                   <button
                     type="button"
                     onClick={() => router.push("/create-account/personal")}
@@ -71,7 +74,7 @@ export default function CreateAccountPage() {
                   >
                     Personal
                   </button>
-                  {/* Organization — active (current page) */}
+                  {/* Organization — active */}
                   <button
                     type="button"
                     style={{
@@ -103,7 +106,11 @@ export default function CreateAccountPage() {
               <Info size={16} color="#025fc9" style={{ flexShrink: 0, marginTop: 1 }} />
               <p style={{ fontSize: 12, color: "#025fc9", letterSpacing: "0.12px", margin: 0, lineHeight: "16px" }}>
                 Already have an account with another email?{" "}
-                <button type="button" style={{ fontSize: 12, fontWeight: 600, color: "#025fc9", background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+                <button
+                  type="button"
+                  onClick={() => router.push("/merge")}
+                  style={{ fontSize: 12, fontWeight: 600, color: "#025fc9", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                >
                   Merge accounts
                 </button>
               </p>
