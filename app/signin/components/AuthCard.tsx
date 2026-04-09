@@ -4,6 +4,7 @@ import { Phone, Mail } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 import { countries } from "../data/countries";
 import CountrySelect from "./CountrySelect";
 import PhoneInput from "./PhoneInput";
@@ -11,7 +12,6 @@ import LanguageSelect from "./LanguageSelect";
 
 type Tab = "phone" | "email";
 
-/* ✅ Email Validation Schema */
 const emailSchema = z.object({
   email: z
     .string()
@@ -20,26 +20,25 @@ const emailSchema = z.object({
 });
 
 export default function AuthCard() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<Tab>("phone");
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
-
-  /* ✅ Email State */
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
-  /* ✅ Email Validate Function */
   const validateEmail = () => {
     const result = emailSchema.safeParse({ email });
-
     if (!result.success) {
-      setEmailError(
-        result.error.flatten().fieldErrors.email?.[0] || ""
-      );
+      setEmailError(result.error.flatten().fieldErrors.email?.[0] || "");
       return false;
     }
-
     setEmailError("");
     return true;
+  };
+
+  const handleSignIn = () => {
+    if (activeTab === "email" && !validateEmail()) return;
+    router.push("/otp");
   };
 
   return (
@@ -127,17 +126,13 @@ export default function AuthCard() {
                 <p style={{ color: "#5e5757", fontSize: 16, fontWeight: 500, margin: 0 }}>
                   EMAIL ADDRESS
                 </p>
-
                 <div>
                   <div
                     style={{
                       height: 44,
                       display: "flex",
                       alignItems: "center",
-                      // ✅ Red border when error, gray when no error
-                      borderBottom: emailError
-                        ? "1px solid #d93025"
-                        : "1px solid #d9d9d9",
+                      borderBottom: emailError ? "1px solid #d93025" : "1px solid #d9d9d9",
                       transition: "border-color 0.2s ease",
                     }}
                   >
@@ -150,26 +145,11 @@ export default function AuthCard() {
                         if (emailError) setEmailError("");
                       }}
                       onBlur={validateEmail}
-                      style={{
-                        flex: 1,
-                        border: "none",
-                        outline: "none",
-                        fontSize: 16,
-                        color: "#000",
-                      }}
+                      style={{ flex: 1, border: "none", outline: "none", fontSize: 16, color: "#000" }}
                     />
                   </div>
-
-                  {/* Error Message */}
                   {emailError && (
-                    <span
-                      style={{
-                        color: "#d93025",
-                        fontSize: 13,
-                        marginTop: 8,
-                        display: "inline-block",
-                      }}
-                    >
+                    <span style={{ color: "#d93025", fontSize: 13, marginTop: 8, display: "inline-block" }}>
                       {emailError}
                     </span>
                   )}
@@ -181,9 +161,7 @@ export default function AuthCard() {
             <div style={{ display: "flex", gap: 20 }}>
               <button
                 type="button"
-                onClick={() => {
-                  if (activeTab === "email") validateEmail();
-                }}
+                onClick={handleSignIn}
                 style={{
                   flex: 1, height: 48, backgroundColor: "#025fc9",
                   color: "#fff", borderRadius: 8, border: "none", cursor: "pointer",
@@ -194,6 +172,7 @@ export default function AuthCard() {
 
               <button
                 type="button"
+                onClick={() => router.push("/create-account")}
                 style={{
                   flex: 1, height: 48, backgroundColor: "transparent",
                   color: "#025fc9", borderRadius: 8,
