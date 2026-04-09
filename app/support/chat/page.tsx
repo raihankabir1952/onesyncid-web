@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
-import { ArrowLeft, MessageCircle, Headphones, Paperclip, Image as ImageIcon, Mic, MapPin, ChevronDown } from "lucide-react";
+import { ArrowLeft, MessageCircle, Headphones, Paperclip, Image as ImageIcon, Mic, Send, MapPin, ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const QUICK_CHIPS = ["Account locked", "Passkey issue", "OTP not arriving", "Find my ID"];
@@ -10,9 +10,38 @@ const QUICK_CHIPS = ["Account locked", "Passkey issue", "OTP not arriving", "Fin
 export default function Page() {
   const router = useRouter();
   const [message, setMessage] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSend = () => {
+    if (!message.trim()) return;
+    // TODO: pass message to conversation via query or context
+    router.push("/support/chat/conversation");
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") handleSend();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) console.log("File selected:", file.name);
+    e.target.value = "";
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) console.log("Image selected:", file.name);
+    e.target.value = "";
+  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Switzer', sans-serif" }}>
+
+      {/* Hidden file inputs */}
+      <input ref={fileInputRef} type="file" accept=".pdf,.doc,.docx,.txt,.zip" onChange={handleFileChange} style={{ display: "none" }} />
+      <input ref={imageInputRef} type="file" accept="image/*" onChange={handleImageChange} style={{ display: "none" }} />
+
       <div className="relative flex-1 w-full" style={{ minHeight: 900 }}>
 
         {/* LEFT */}
@@ -28,11 +57,11 @@ export default function Page() {
           </p>
         </div>
 
-        {/* RIGHT CARD — full height chat layout */}
+        {/* RIGHT CARD */}
         <div className="absolute bg-white flex flex-col" style={{ right: "clamp(16px, 4.2vw, 60px)", top: 75, width: "clamp(320px, 41.7vw, 600px)", height: 776, borderRadius: 8, boxShadow: "0px 0px 5.5px 1.5px rgba(0,0,0,0.25)", overflow: "hidden" }}>
 
           {/* Header */}
-          <div style={{ borderBottom: "1px solid #d9d9d9", padding: "0 30px 20px", paddingTop: 30 }}>
+          <div style={{ borderBottom: "1px solid #d9d9d9", padding: "30px 30px 20px" }}>
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
               <button type="button" onClick={() => router.back()} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, flexShrink: 0, marginTop: 2 }}>
                 <ArrowLeft size={24} color="#025fc9" />
@@ -42,11 +71,7 @@ export default function Page() {
                   <p style={{ fontSize: 18, fontWeight: 600, color: "#000", margin: 0 }}>Smart Support</p>
                   <p style={{ fontSize: 14, color: "#5e5757", margin: 0 }}>Usually answers in seconds</p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => router.push("/get-started/support/agent")}
-                  style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}
-                >
+                <button type="button" onClick={() => router.push("/support/agent")} style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}>
                   <Headphones size={20} color="#025fc9" />
                   <span style={{ fontSize: 16, fontWeight: 500, color: "#025fc9" }}>Agent Support</span>
                 </button>
@@ -57,26 +82,26 @@ export default function Page() {
           {/* Chat area */}
           <div style={{ flex: 1, backgroundColor: "rgba(185,185,185,0.05)", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
 
-            {/* Welcome message */}
+            {/* Welcome */}
             <div style={{ display: "flex", flexDirection: "column", gap: 30, alignItems: "center", padding: "60px 30px 20px" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "center" }}>
                 <div style={{ width: 40, height: 40, backgroundColor: "rgba(2,95,201,0.1)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <MessageCircle size={24} color="#025fc9" />
                 </div>
-                <p style={{ fontSize: 14, color: "#a09898", textAlign: "center", margin: 0, lineHeight: "22.75px", letterSpacing: "0.14px" }}>
+                <p style={{ fontSize: 14, color: "#a09898", textAlign: "center", margin: 0, lineHeight: "22.75px" }}>
                   Tell me what&apos;s going wrong with your account.{"\n"}
                   I&apos;ll find the right answer or get you to someone who can help.
                 </p>
               </div>
 
-              {/* Quick chips */}
+              {/* Quick chips — click navigates to conversation */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }}>
                 {QUICK_CHIPS.map((chip) => (
                   <button
                     key={chip}
                     type="button"
-                    onClick={() => setMessage(chip)}
-                    style={{ backgroundColor: "#fff", border: "1px solid #d9d9d9", borderRadius: 8, padding: "5px 10px", fontSize: 14, color: "#5e5757", cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.14px" }}
+                    onClick={() => router.push("/support/chat/conversation")}
+                    style={{ backgroundColor: "#fff", border: "1px solid #d9d9d9", borderRadius: 8, padding: "5px 10px", fontSize: 14, color: "#5e5757", cursor: "pointer", fontFamily: "inherit" }}
                   >
                     {chip}
                   </button>
@@ -84,27 +109,37 @@ export default function Page() {
               </div>
             </div>
 
-            {/* Input area */}
+            {/* Input */}
             <div style={{ borderTop: "1px solid #d9d9d9", padding: "20px 20px 30px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <div style={{ flex: 1, height: 44, display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "#fff", border: "1px solid #d9d9d9", borderRadius: 9999, padding: "8px 16px" }}>
+                <div style={{ flex: 1, height: 44, display: "flex", alignItems: "center", backgroundColor: "#fff", border: "1px solid #d9d9d9", borderRadius: 9999, padding: "8px 16px", gap: 8 }}>
                   <input
                     type="text"
                     placeholder="Describe your issue..."
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    style={{ flex: 1, border: "none", outline: "none", fontSize: 14, color: "#5e5757", fontFamily: "inherit", background: "transparent" }}
+                    onKeyDown={handleKeyDown}
+                    style={{ flex: 1, border: "none", outline: "none", fontSize: 14, color: "#333", fontFamily: "inherit", background: "transparent" }}
                   />
-                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <Paperclip size={20} color="#5e5757" style={{ cursor: "pointer" }} />
-                    <ImageIcon size={20} color="#5e5757" style={{ cursor: "pointer" }} />
-                  </div>
+                  {!message.trim() && (
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+                      <button type="button" onClick={() => fileInputRef.current?.click()} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, display: "flex" }}>
+                        <Paperclip size={20} color="#5e5757" />
+                      </button>
+                      <button type="button" onClick={() => imageInputRef.current?.click()} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, display: "flex" }}>
+                        <ImageIcon size={20} color="#5e5757" />
+                      </button>
+                    </div>
+                  )}
                 </div>
+
+                {/* Mic → Send */}
                 <button
                   type="button"
+                  onClick={handleSend}
                   style={{ width: 40, height: 40, backgroundColor: "#025fc9", borderRadius: "50%", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
                 >
-                  <Mic size={20} color="#fff" />
+                  {message.trim() ? <Send size={18} color="#fff" style={{ marginRight: -2 }} /> : <Mic size={20} color="#fff" />}
                 </button>
               </div>
             </div>
@@ -113,7 +148,7 @@ export default function Page() {
       </div>
 
       {/* FOOTER */}
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 20, paddingBottom: 40, color: "#605353", fontSize: 14 }}>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 20, paddingBottom: 40, paddingTop: 20, color: "#605353", fontSize: 14 }}>
         <span style={{ cursor: "pointer" }}>Privacy &amp; Terms</span>
         <span style={{ cursor: "pointer" }}>Contact us</span>
         <button style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", color: "#605353", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}>

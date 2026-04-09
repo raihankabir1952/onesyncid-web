@@ -2,7 +2,8 @@
 
 import React, { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Link, Mail } from "lucide-react";
+import { Link } from "lucide-react";
+import Image from "next/image";
 import PageLayout from "@/components/PageLayout";
 
 function MergeConfirmContent() {
@@ -12,7 +13,6 @@ function MergeConfirmContent() {
   const existingEmail = searchParams.get("existingEmail") ?? "johndoe@gmail.com";
 
   const handleConfirm = () => {
-    // TODO: call merge API
     router.push(`/merge/success?emails=${encodeURIComponent(existingEmail)}&emails=${encodeURIComponent(newEmail)}`);
   };
 
@@ -39,8 +39,8 @@ function MergeConfirmContent() {
                 <span style={{ fontSize: 12, fontWeight: 500, color: "#025fc9", letterSpacing: "0.12px" }}>Existing</span>
               </div>
               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                <div style={{ width: 24, height: 24, borderRadius: "50%", backgroundColor: "#e0e0e0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Mail size={12} color="#666" />
+                <div style={{ width: 32, height: 32, borderRadius: "50%", overflow: "hidden", flexShrink: 0, position: "relative" }}>
+                  <Image src="/images/profile.png" alt="profile" fill sizes="32px" className="object-cover" />
                 </div>
                 <p style={{ fontSize: 14, fontWeight: 500, color: "#333", letterSpacing: "0.16px", margin: 0, wordBreak: "break-all" }}>{existingEmail}</p>
               </div>
@@ -61,8 +61,8 @@ function MergeConfirmContent() {
                 <span style={{ fontSize: 12, fontWeight: 500, color: "#025fc9", letterSpacing: "0.12px" }}>New</span>
               </div>
               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                <div style={{ width: 24, height: 24, borderRadius: "50%", backgroundColor: "#e0e0e0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Mail size={12} color="#666" />
+                <div style={{ width: 32, height: 32, borderRadius: "50%", overflow: "hidden", flexShrink: 0, position: "relative" }}>
+                  <Image src="/images/profile.png" alt="profile" fill sizes="32px" className="object-cover" />
                 </div>
                 <p style={{ fontSize: 14, fontWeight: 500, color: "#333", letterSpacing: "0.16px", margin: 0, wordBreak: "break-all" }}>{newEmail}</p>
               </div>

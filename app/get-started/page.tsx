@@ -70,18 +70,13 @@ export default function Page() {
   });
 
   return (
-    <div
-      className="min-h-screen bg-white flex flex-col"
-      style={{ fontFamily: "'Switzer', sans-serif" }}
-    >
+    <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Switzer', sans-serif" }}>
+
       {/* ── MAIN ── */}
       <div className="relative flex-1 w-full" style={{ minHeight: 900 }}>
 
         {/* LEFT */}
-        <div
-          className="absolute flex flex-col"
-          style={{ left: "clamp(24px, 3.9vw, 56px)", top: 85, width: "clamp(300px, 37.3vw, 537px)", gap: 33 }}
-        >
+        <div className="absolute flex flex-col" style={{ left: "clamp(24px, 3.9vw, 56px)", top: 85, width: "clamp(300px, 37.3vw, 537px)", gap: 33 }}>
           <div style={{ position: "relative", width: 232, height: 40 }}>
             <Image src="/images/logo.png" alt="OneSyncID" fill priority sizes="232px" className="object-contain object-left" />
           </div>
@@ -139,9 +134,7 @@ export default function Page() {
               {/* PASSWORD field */}
               {activeTab === "password" && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>
-                    PASSWORD
-                  </p>
+                  <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>PASSWORD</p>
                   <div style={{ height: 44, display: "flex", alignItems: "center", borderBottom: "1px solid #d9d9d9" }}>
                     <input
                       type={showPassword ? "text" : "password"}
@@ -150,11 +143,7 @@ export default function Page() {
                       onChange={(e) => setPassword(e.target.value)}
                       style={{ flex: 1, border: "none", outline: "none", fontSize: 16, color: "#000", fontFamily: "inherit", background: "transparent" }}
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      style={{ background: "none", border: "none", cursor: "pointer", padding: 0, display: "flex" }}
-                    >
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, display: "flex" }}>
                       {showPassword ? <EyeOff size={20} color="#a09898" /> : <Eye size={20} color="#a09898" />}
                     </button>
                   </div>
@@ -164,9 +153,7 @@ export default function Page() {
               {/* PIN field */}
               {activeTab === "pin" && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>
-                    6 DIGIT PIN
-                  </p>
+                  <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>6 DIGIT PIN</p>
                   <div style={{ position: "relative" }}>
                     <PinDots value={pin} onFocus={() => pinRef.current?.focus()} />
                     <input
@@ -185,19 +172,15 @@ export default function Page() {
               {/* Remember me + Forgot */}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
-                  <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    style={{ width: 16, height: 16, cursor: "pointer" }}
-                  />
+                  <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} style={{ width: 16, height: 16, cursor: "pointer" }} />
                   <span style={{ fontSize: 14, color: "#5e5757" }}>Remember me</span>
                 </label>
                 <button
                   type="button"
-                  onClick={() => { if (activeTab === "pin") router.push("/get-started/reset-pin");
+                  onClick={() => {
+                    if (activeTab === "pin") router.push("/get-started/reset-pin");
                     else router.push("/get-started/reset-password");
-                   }}
+                  }}
                   style={{ fontSize: 14, color: "#0052b4", background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}
                 >
                   {activeTab === "password" ? "Forgot password?" : "Forgot PIN?"}
@@ -206,11 +189,11 @@ export default function Page() {
 
               {/* Face ID + Fingerprint */}
               <div style={{ display: "flex", gap: 12 }}>
-                <button type="button" style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, backgroundColor: "rgba(2,95,201,0.1)", borderRadius: 12, padding: "8px 16px", border: "none", cursor: "pointer", fontFamily: "inherit" }}>
+                <button type="button" onClick={() => router.push("/get-started/no-passkey")} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, backgroundColor: "rgba(2,95,201,0.1)", borderRadius: 12, padding: "8px 16px", border: "none", cursor: "pointer", fontFamily: "inherit" }}>
                   <ScanFace size={20} color="#025fc9" />
                   <span style={{ fontSize: 16, fontWeight: 500, color: "#025fc9" }}>Face ID</span>
                 </button>
-                <button type="button" style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, backgroundColor: "rgba(2,95,201,0.1)", borderRadius: 12, padding: "8px 16px", border: "none", cursor: "pointer", fontFamily: "inherit" }}>
+                <button type="button" onClick={() => router.push("/get-started/no-passkey")} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, backgroundColor: "rgba(2,95,201,0.1)", borderRadius: 12, padding: "8px 16px", border: "none", cursor: "pointer", fontFamily: "inherit" }}>
                   <Fingerprint size={20} color="#025fc9" />
                   <span style={{ fontSize: 16, fontWeight: 500, color: "#025fc9" }}>Fingerprint</span>
                 </button>
@@ -220,9 +203,9 @@ export default function Page() {
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 <p style={{ fontSize: 12, color: "#333", margin: 0 }}>
                   By signing in, you agree to our{" "}
-                  <button type="button" style={{ color: "#025fc9", background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: 12, fontFamily: "inherit" }}>Terms</button>
+                  <button type="button" onClick={() => router.push("/support")} style={{ color: "#025fc9", background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: 12, fontFamily: "inherit" }}>Terms</button>
                   {" "}and{" "}
-                  <button type="button" style={{ color: "#025fc9", background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: 12, fontFamily: "inherit" }}>Privacy Policy</button>
+                  <button type="button" onClick={() => router.push("/support")} style={{ color: "#025fc9", background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: 12, fontFamily: "inherit" }}>Privacy Policy</button>
                 </p>
                 <button type="button" style={{ width: "100%", height: 48, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, border: "none", borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}>
                   Sign In
@@ -261,9 +244,24 @@ export default function Page() {
 
       {/* ── FOOTER ── */}
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 20, paddingBottom: 40, color: "#605353", fontSize: 14 }}>
-        <span style={{ cursor: "pointer" }}>Privacy &amp; Terms</span>
-        <span style={{ cursor: "pointer" }}>Contact us</span>
-        <button style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", color: "#605353", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}>
+        <button
+          type="button"
+          onClick={() => router.push("/support")}
+          style={{ color: "#605353", background: "none", border: "none", fontSize: 14, cursor: "pointer", fontFamily: "inherit", padding: 0 }}
+        >
+          Privacy &amp; Terms
+        </button>
+        <button
+          type="button"
+          onClick={() => router.push("/support")}
+          style={{ color: "#605353", background: "none", border: "none", fontSize: 14, cursor: "pointer", fontFamily: "inherit", padding: 0 }}
+        >
+          Contact us
+        </button>
+        <button
+          type="button"
+          style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", color: "#605353", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}
+        >
           <MapPin size={20} color="#605353" />
           <span>Change region</span>
           <ChevronDown size={24} color="#605353" />

@@ -40,14 +40,14 @@ export default function Page() {
             <div style={{ display: "flex", gap: 12 }}>
               <button
                 type="button"
-                onClick={() => router.push("/get-started/support/chat")}
+                onClick={() => router.push("/support/chat")}
                 style={{ flex: 1, height: 44, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, border: "none", borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}
               >
                 Smart Support
               </button>
               <button
                 type="button"
-                onClick={() => router.push("/get-started/support/agent")}
+                onClick={() => router.push("/support/agent")}
                 style={{ flex: 1, height: 44, backgroundColor: "transparent", color: "#025fc9", fontSize: 16, fontWeight: 500, border: "1.5px solid #025fc9", borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}
               >
                 Agent Support

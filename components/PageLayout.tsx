@@ -3,24 +3,27 @@ import Image from "next/image";
 import { MapPin, ChevronDown } from "lucide-react";
 
 interface PageLayoutProps {
-  illustration: string; // image path e.g. "/images/merge.png"
+  illustration: string;
   children: React.ReactNode;
   cardVerticalCenter?: boolean;
+  stickyHeader?: React.ReactNode; // ← sticky title area
 }
 
 export default function PageLayout({
   illustration,
   children,
   cardVerticalCenter = false,
+  stickyHeader,
 }: PageLayoutProps) {
   return (
     <div
       className="min-h-screen bg-white flex flex-col"
       style={{ fontFamily: "'Switzer', sans-serif" }}
     >
+      {/* ── MAIN ── */}
       <div className="relative flex-1 w-full" style={{ minHeight: 900 }}>
 
-        {/* LEFT — logo + illustration + tagline */}
+        {/* LEFT */}
         <div
           className="absolute flex flex-col"
           style={{ left: "clamp(24px, 3.9vw, 56px)", top: 85, width: "clamp(300px, 37.3vw, 537px)", gap: 33 }}
@@ -38,32 +41,57 @@ export default function PageLayout({
 
         {/* RIGHT CARD */}
         <div
-          className="absolute bg-white flex flex-col justify-between"
+          className="absolute bg-white flex flex-col"
           style={{
             right: "clamp(16px, 4.2vw, 60px)",
             top: cardVerticalCenter ? "50%" : 75,
             transform: cardVerticalCenter ? "translateY(-50%)" : "none",
             width: "clamp(320px, 41.7vw, 600px)",
             minHeight: 776,
+            maxHeight: "calc(100vh - 120px)",
             borderRadius: 8,
             boxShadow: "0px 0px 5.5px 1.5px rgba(0,0,0,0.25)",
-            padding: 30,
-            overflow: "hidden",
+            overflow: "hidden", // clip inner scroll
           }}
         >
-          {children}
+          {/* STICKY HEADER — stays fixed while scrolling */}
+          {stickyHeader && (
+            <div style={{
+              flexShrink: 0,
+              padding: "30px 30px 20px",
+              backgroundColor: "#fff",
+              borderBottom: "1px solid #f0f0f0",
+              position: "sticky",
+              top: 0,
+              zIndex: 10,
+            }}>
+              {stickyHeader}
+            </div>
+          )}
 
-          {/* Bottom logo */}
-          <div style={{ display: "flex", justifyContent: "center", paddingTop: 20 }}>
-            <div style={{ position: "relative", width: 98, height: 17 }}>
-              <Image src="/images/logo.png" alt="OneSyncID" fill sizes="98px" className="object-contain" />
+          {/* SCROLLABLE BODY */}
+          <div style={{
+            flex: 1,
+            overflowY: "auto",
+            padding: stickyHeader ? "20px 30px 30px" : 30,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}>
+            {children}
+
+            {/* Bottom logo */}
+            <div style={{ display: "flex", justifyContent: "center", paddingTop: 20 }}>
+              <div style={{ position: "relative", width: 98, height: 17 }}>
+                <Image src="/images/logo.png" alt="OneSyncID" fill sizes="98px" className="object-contain" />
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* FOOTER */}
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 20, paddingBottom: 40, color: "#605353", fontSize: 14 }}>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 20, paddingBottom: 40, paddingTop: 20, color: "#605353", fontSize: 14 }}>
         <span style={{ cursor: "pointer" }}>Privacy &amp; Terms</span>
         <span style={{ cursor: "pointer" }}>Contact us</span>
         <button style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", color: "#605353", fontSize: 14, cursor: "pointer" }}>

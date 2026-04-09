@@ -46,7 +46,7 @@ export default function Page() {
                   <button
                     key={option}
                     type="button"
-                    onClick={() => router.push("/get-started/support/no-account/contact")}
+                    onClick={() => router.push("/support/no-account/contact")}
                     style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "12px 16px", border: "1px solid #d9d9d9", borderRadius: 12, background: "none", cursor: "pointer", fontFamily: "inherit", width: "100%" }}
                   >
                     <span style={{ fontSize: 14, fontWeight: 500, color: "#333", letterSpacing: "0.14px" }}>{option}</span>
