@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Link, Mail } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 
-export default function MergeConfirmPage() {
+function MergeConfirmContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const newEmail = searchParams.get("newEmail") ?? "johndoe26@yahoo.com";
@@ -87,5 +87,13 @@ export default function MergeConfirmPage() {
         </div>
       </div>
     </PageLayout>
+  );
+}
+
+export default function MergeConfirmPage() {
+  return (
+    <Suspense fallback={null}>
+      <MergeConfirmContent />
+    </Suspense>
   );
 }
