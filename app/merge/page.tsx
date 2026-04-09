@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { Eye, EyeOff, Phone, Mail, ChevronDown, Shield } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -9,10 +9,9 @@ import PageLayout from "@/components/PageLayout";
 type AuthMethod = "password" | "pin";
 type OtpMethod = "phone" | "email";
 
-export default function MergePage() {
+function MergeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  // new account email passed as query param e.g. /merge?newEmail=johndoe@mail.com
   const newEmail = searchParams.get("newEmail") ?? "johndoe@mail.com";
 
   const [authMethod, setAuthMethod] = useState<AuthMethod>("password");
@@ -23,8 +22,6 @@ export default function MergePage() {
   const [phone, setPhone] = useState("");
 
   const handleContinue = () => {
-    // TODO: call API to verify existing account
-    // On success navigate to confirm screen
     router.push(`/merge/confirm?newEmail=${encodeURIComponent(newEmail)}&existingEmail=johndoe@gmail.com`);
   };
 
@@ -75,10 +72,10 @@ export default function MergePage() {
 
               {/* Password / PIN tab */}
               <div style={{ display: "flex", alignItems: "center", borderWidth: 1, borderStyle: "solid", borderColor: "#d9d9d9", borderRadius: 12, paddingLeft: 16, paddingRight: 16, paddingTop: 8, paddingBottom: 8 }}>
-                <button type="button" onClick={() => setAuthMethod("password")} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: authMethod === "password" ? 3 : 0, borderBottomStyle: "solid", borderBottomColor: "#025fc9", color: authMethod === "password" ? "#025fc9" : "#5e5757", fontSize: 16, fontWeight: 500, background: "none", cursor: "pointer" }}>
+                <button type="button" onClick={() => setAuthMethod("password")} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: authMethod === "password" ? 3 : 0, borderBottomStyle: "solid" as const, borderBottomColor: "#025fc9", color: authMethod === "password" ? "#025fc9" : "#5e5757", fontSize: 16, fontWeight: 500, background: "none", cursor: "pointer" as const }}>
                   Password
                 </button>
-                <button type="button" onClick={() => setAuthMethod("pin")} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: authMethod === "pin" ? 3 : 0, borderBottomStyle: "solid", borderBottomColor: "#025fc9", color: authMethod === "pin" ? "#025fc9" : "#5e5757", fontSize: 16, fontWeight: 500, background: "none", cursor: "pointer" }}>
+                <button type="button" onClick={() => setAuthMethod("pin")} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: authMethod === "pin" ? 3 : 0, borderBottomStyle: "solid" as const, borderBottomColor: "#025fc9", color: authMethod === "pin" ? "#025fc9" : "#5e5757", fontSize: 16, fontWeight: 500, background: "none", cursor: "pointer" as const }}>
                   PIN
                 </button>
               </div>
@@ -114,10 +111,10 @@ export default function MergePage() {
               <div style={{ display: "flex", flexDirection: "column", gap: 30 }}>
                 {/* Phone/Email OTP tab */}
                 <div style={{ display: "flex", alignItems: "center", borderWidth: 1, borderStyle: "solid", borderColor: "#d9d9d9", borderRadius: 12, paddingLeft: 16, paddingRight: 16, paddingTop: 8, paddingBottom: 8 }}>
-                  <button type="button" onClick={() => setOtpMethod("phone")} style={{ flex: 1, display: "flex", gap: 8, alignItems: "center", justifyContent: "center", padding: 8, borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: otpMethod === "phone" ? 3 : 0, borderBottomStyle: "solid", borderBottomColor: "#025fc9", color: otpMethod === "phone" ? "#025fc9" : "#5e5757", fontSize: 16, fontWeight: 500, background: "none", cursor: "pointer" }}>
+                  <button type="button" onClick={() => setOtpMethod("phone")} style={{ flex: 1, display: "flex", gap: 8, alignItems: "center", justifyContent: "center", padding: 8, borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: otpMethod === "phone" ? 3 : 0, borderBottomStyle: "solid" as const, borderBottomColor: "#025fc9", color: otpMethod === "phone" ? "#025fc9" : "#5e5757", fontSize: 16, fontWeight: 500, background: "none", cursor: "pointer" as const }}>
                     <Phone size={20} /> Phone
                   </button>
-                  <button type="button" onClick={() => setOtpMethod("email")} style={{ flex: 1, display: "flex", gap: 8, alignItems: "center", justifyContent: "center", padding: 8, borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: otpMethod === "email" ? 3 : 0, borderBottomStyle: "solid", borderBottomColor: "#025fc9", color: otpMethod === "email" ? "#025fc9" : "#5e5757", fontSize: 16, fontWeight: 500, background: "none", cursor: "pointer" }}>
+                  <button type="button" onClick={() => setOtpMethod("email")} style={{ flex: 1, display: "flex", gap: 8, alignItems: "center", justifyContent: "center", padding: 8, borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: otpMethod === "email" ? 3 : 0, borderBottomStyle: "solid" as const, borderBottomColor: "#025fc9", color: otpMethod === "email" ? "#025fc9" : "#5e5757", fontSize: 16, fontWeight: 500, background: "none", cursor: "pointer" as const }}>
                     <Mail size={20} /> Email
                   </button>
                 </div>
@@ -164,5 +161,13 @@ export default function MergePage() {
         </div>
       </div>
     </PageLayout>
+  );
+}
+
+export default function MergePage() {
+  return (
+    <Suspense fallback={null}>
+      <MergeContent />
+    </Suspense>
   );
 }
