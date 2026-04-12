@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 type AuthTab = "password" | "pin";
 
-function PinDots({ value, onFocus }: { value: string; onFocus: () => void }) {
+function PinDots({ value, onFocus, error }: { value: string; onFocus: () => void; error?: boolean }) {
   return (
     <div
       onClick={onFocus}
@@ -18,7 +18,7 @@ function PinDots({ value, onFocus }: { value: string; onFocus: () => void }) {
         paddingTop: 10,
         paddingBottom: 10,
         cursor: "text",
-        borderBottom: "1px solid #d9d9d9",
+        borderBottom: `1px solid ${error ? "#d93025" : "#d9d9d9"}`,
       }}
     >
       {Array.from({ length: 6 }).map((_, i) => (
@@ -46,6 +46,8 @@ export default function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [pin, setPin] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const pinRef = useRef<HTMLInputElement>(null);
 
   const tabStyle = (tab: AuthTab) => ({
@@ -68,6 +70,30 @@ export default function Page() {
     cursor: "pointer" as const,
     fontFamily: "inherit",
   });
+
+  const handleSignIn = () => {
+    let hasError = false;
+
+    if (!username.trim()) {
+      setUsernameError("Username or email is required");
+      hasError = true;
+    } else {
+      setUsernameError("");
+    }
+
+    if (activeTab === "password" && !password.trim()) {
+      setPasswordError("Password is required");
+      hasError = true;
+    } else if (activeTab === "pin" && pin.length < 6) {
+      setPasswordError("Please enter your 6 digit PIN");
+      hasError = true;
+    } else {
+      setPasswordError("");
+    }
+
+    if (hasError) return;
+    router.push("/get-started/trust");
+  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Switzer', sans-serif" }}>
@@ -103,100 +129,111 @@ export default function Page() {
               Sign in to your account
             </p>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
 
-              {/* Username / Email */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>
-                  USERNAME OR EMAIL
-                </p>
-                <div style={{ height: 44, display: "flex", alignItems: "center", borderBottom: "1px solid #d9d9d9" }}>
-                  <input
-                    type="text"
-                    placeholder="Enter your username or email"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    style={{ flex: 1, border: "none", outline: "none", fontSize: 16, color: "#000", fontFamily: "inherit", background: "transparent" }}
-                  />
-                </div>
-              </div>
+              {/* Form fields group — gap 12 */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
 
-              {/* Password / PIN tabs */}
-              <div style={{ display: "flex", border: "1px solid #d9d9d9", borderRadius: 12, padding: "8px 16px", height: 53, alignItems: "center" }}>
-                <button type="button" onClick={() => setActiveTab("password")} style={tabStyle("password")}>
-                  Password
-                </button>
-                <button type="button" onClick={() => setActiveTab("pin")} style={tabStyle("pin")}>
-                  PIN
-                </button>
-              </div>
+                {/* Username + tabs + password — gap 20 */}
+                <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
 
-              {/* PASSWORD field */}
-              {activeTab === "password" && (
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>PASSWORD</p>
-                  <div style={{ height: 44, display: "flex", alignItems: "center", borderBottom: "1px solid #d9d9d9" }}>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      style={{ flex: 1, border: "none", outline: "none", fontSize: 16, color: "#000", fontFamily: "inherit", background: "transparent" }}
-                    />
-                    <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, display: "flex" }}>
-                      {showPassword ? <EyeOff size={20} color="#a09898" /> : <Eye size={20} color="#a09898" />}
+                  {/* Username / Email */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                    <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>
+                      USERNAME OR EMAIL
+                    </p>
+                    <div style={{ height: 44, display: "flex", alignItems: "center", borderBottom: `1px solid ${usernameError ? "#d93025" : "#d9d9d9"}` }}>
+                      <input
+                        type="text"
+                        placeholder="Enter your username or email"
+                        value={username}
+                        onChange={(e) => { setUsername(e.target.value); if (usernameError) setUsernameError(""); }}
+                        style={{ flex: 1, border: "none", outline: "none", fontSize: 16, color: "#000", fontFamily: "inherit", background: "transparent" }}
+                      />
+                    </div>
+                    {usernameError && <span style={{ color: "#d93025", fontSize: 13 }}>{usernameError}</span>}
+                  </div>
+
+                  {/* Password / PIN tabs */}
+                  <div style={{ display: "flex", border: "1px solid #d9d9d9", borderRadius: 12, padding: "8px 16px", height: 53, alignItems: "center" }}>
+                    <button type="button" onClick={() => { setActiveTab("password"); setPasswordError(""); }} style={tabStyle("password")}>
+                      Password
+                    </button>
+                    <button type="button" onClick={() => { setActiveTab("pin"); setPasswordError(""); }} style={tabStyle("pin")}>
+                      PIN
                     </button>
                   </div>
+
+                  {/* PASSWORD field */}
+                  {activeTab === "password" && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                      <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>PASSWORD</p>
+                      <div style={{ height: 44, display: "flex", alignItems: "center", borderBottom: `1px solid ${passwordError ? "#d93025" : "#d9d9d9"}` }}>
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Enter your password"
+                          value={password}
+                          onChange={(e) => { setPassword(e.target.value); if (passwordError) setPasswordError(""); }}
+                          style={{ flex: 1, border: "none", outline: "none", fontSize: 16, color: "#000", fontFamily: "inherit", background: "transparent" }}
+                        />
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, display: "flex" }}>
+                          {showPassword ? <EyeOff size={20} color="#a09898" /> : <Eye size={20} color="#a09898" />}
+                        </button>
+                      </div>
+                      {passwordError && <span style={{ color: "#d93025", fontSize: 13 }}>{passwordError}</span>}
+                    </div>
+                  )}
+
+                  {/* PIN field */}
+                  {activeTab === "pin" && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                      <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>6 DIGIT PIN</p>
+                      <div style={{ position: "relative" }}>
+                        <PinDots value={pin} onFocus={() => pinRef.current?.focus()} error={!!passwordError} />
+                        <input
+                          ref={pinRef}
+                          type="password"
+                          inputMode="numeric"
+                          maxLength={6}
+                          value={pin}
+                          onChange={(e) => { setPin(e.target.value.replace(/\D/g, "").slice(0, 6)); if (passwordError) setPasswordError(""); }}
+                          style={{ position: "absolute", opacity: 0, pointerEvents: "none", width: 0, height: 0 }}
+                        />
+                      </div>
+                      {passwordError && <span style={{ color: "#d93025", fontSize: 13 }}>{passwordError}</span>}
+                    </div>
+                  )}
                 </div>
-              )}
 
-              {/* PIN field */}
-              {activeTab === "pin" && (
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>6 DIGIT PIN</p>
-                  <div style={{ position: "relative" }}>
-                    <PinDots value={pin} onFocus={() => pinRef.current?.focus()} />
-                    <input
-                      ref={pinRef}
-                      type="password"
-                      inputMode="numeric"
-                      maxLength={6}
-                      value={pin}
-                      onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                      style={{ position: "absolute", opacity: 0, pointerEvents: "none", width: 0, height: 0 }}
-                    />
-                  </div>
+                {/* Remember me + Forgot */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
+                    <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} style={{ width: 16, height: 16, cursor: "pointer" }} />
+                    <span style={{ fontSize: 14, color: "#5e5757" }}>Remember me</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (activeTab === "pin") router.push("/get-started/reset-pin");
+                      else router.push("/get-started/reset-password");
+                    }}
+                    style={{ fontSize: 14, color: "#0052b4", background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}
+                  >
+                    {activeTab === "password" ? "Forgot password?" : "Forgot PIN?"}
+                  </button>
                 </div>
-              )}
 
-              {/* Remember me + Forgot */}
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
-                  <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} style={{ width: 16, height: 16, cursor: "pointer" }} />
-                  <span style={{ fontSize: 14, color: "#5e5757" }}>Remember me</span>
-                </label>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (activeTab === "pin") router.push("/get-started/reset-pin");
-                    else router.push("/get-started/reset-password");
-                  }}
-                  style={{ fontSize: 14, color: "#0052b4", background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}
-                >
-                  {activeTab === "password" ? "Forgot password?" : "Forgot PIN?"}
-                </button>
-              </div>
-
-              {/* Face ID + Fingerprint */}
-              <div style={{ display: "flex", gap: 12 }}>
-                <button type="button" onClick={() => router.push("/get-started/no-passkey")} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, backgroundColor: "rgba(2,95,201,0.1)", borderRadius: 12, padding: "8px 16px", border: "none", cursor: "pointer", fontFamily: "inherit" }}>
-                  <ScanFace size={20} color="#025fc9" />
-                  <span style={{ fontSize: 16, fontWeight: 500, color: "#025fc9" }}>Face ID</span>
-                </button>
-                <button type="button" onClick={() => router.push("/get-started/no-passkey")} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, backgroundColor: "rgba(2,95,201,0.1)", borderRadius: 12, padding: "8px 16px", border: "none", cursor: "pointer", fontFamily: "inherit" }}>
-                  <Fingerprint size={20} color="#025fc9" />
-                  <span style={{ fontSize: 16, fontWeight: 500, color: "#025fc9" }}>Fingerprint</span>
-                </button>
+                {/* Face ID + Fingerprint */}
+                <div style={{ display: "flex", gap: 12, paddingTop: 20 }}>
+                  <button type="button" onClick={() => router.push("/get-started/no-passkey")} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, backgroundColor: "rgba(2,95,201,0.1)", borderRadius: 12, padding: "8px 16px", border: "none", cursor: "pointer", fontFamily: "inherit" }}>
+                    <ScanFace size={20} color="#025fc9" />
+                    <span style={{ fontSize: 16, fontWeight: 500, color: "#025fc9" }}>Face ID</span>
+                  </button>
+                  <button type="button" onClick={() => router.push("/get-started/no-passkey")} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, backgroundColor: "rgba(2,95,201,0.1)", borderRadius: 12, padding: "8px 16px", border: "none", cursor: "pointer", fontFamily: "inherit" }}>
+                    <Fingerprint size={20} color="#025fc9" />
+                    <span style={{ fontSize: 16, fontWeight: 500, color: "#025fc9" }}>Fingerprint</span>
+                  </button>
+                </div>
               </div>
 
               {/* Terms + Sign In */}
@@ -207,7 +244,11 @@ export default function Page() {
                   {" "}and{" "}
                   <button type="button" onClick={() => router.push("/support")} style={{ color: "#025fc9", background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: 12, fontFamily: "inherit" }}>Privacy Policy</button>
                 </p>
-                <button type="button" style={{ width: "100%", height: 48, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, border: "none", borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}>
+                <button
+                  type="button"
+                  onClick={handleSignIn}
+                  style={{ width: "100%", height: 48, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, border: "none", borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}
+                >
                   Sign In
                 </button>
               </div>
@@ -244,24 +285,13 @@ export default function Page() {
 
       {/* ── FOOTER ── */}
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 20, paddingBottom: 40, color: "#605353", fontSize: 14 }}>
-        <button
-          type="button"
-          onClick={() => router.push("/support")}
-          style={{ color: "#605353", background: "none", border: "none", fontSize: 14, cursor: "pointer", fontFamily: "inherit", padding: 0 }}
-        >
+        <button type="button" onClick={() => router.push("/support")} style={{ color: "#605353", background: "none", border: "none", fontSize: 14, cursor: "pointer", fontFamily: "inherit", padding: 0 }}>
           Privacy &amp; Terms
         </button>
-        <button
-          type="button"
-          onClick={() => router.push("/support")}
-          style={{ color: "#605353", background: "none", border: "none", fontSize: 14, cursor: "pointer", fontFamily: "inherit", padding: 0 }}
-        >
+        <button type="button" onClick={() => router.push("/support")} style={{ color: "#605353", background: "none", border: "none", fontSize: 14, cursor: "pointer", fontFamily: "inherit", padding: 0 }}>
           Contact us
         </button>
-        <button
-          type="button"
-          style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", color: "#605353", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}
-        >
+        <button type="button" style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", color: "#605353", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}>
           <MapPin size={20} color="#605353" />
           <span>Change region</span>
           <ChevronDown size={24} color="#605353" />

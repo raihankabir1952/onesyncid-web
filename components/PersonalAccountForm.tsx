@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Calendar, ChevronDown, MapPin, Eye, EyeOff, Mail, Phone, Info } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -48,9 +48,13 @@ function FieldRow({ error, children }: { error?: string; children: React.ReactNo
 
 export default function PersonalAccountForm() {
   const router = useRouter();
+  const dobRef = useRef<HTMLInputElement>(null);
+
   const [verifyMethod, setVerifyMethod] = useState<VerifyMethod>("email");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [locating, setLocating] = useState(false);
+  const [locationError, setLocationError] = useState("");
   const [form, setForm] = useState<FormData>({
     fullName: "", dob: "", gender: "", state: "", city: "",
     email: "", phone: "", password: "", confirmPassword: "",
@@ -63,6 +67,47 @@ export default function PersonalAccountForm() {
       if (errors[key]) setErrors((err) => ({ ...err, [key]: undefined }));
     };
 
+  const handleCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError("Geolocation is not supported by your browser");
+      return;
+    }
+
+    setLocating(true);
+    setLocationError("");
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          const res = await fetch(
+            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+          );
+          const data = await res.json();
+
+          setForm((f) => ({
+            ...f,
+            city: data.city || data.locality || "",
+            state: data.principalSubdivision || "",
+          }));
+          setErrors((e) => ({ ...e, city: undefined, state: undefined }));
+        } catch {
+          setLocationError("Failed to fetch location details");
+        } finally {
+          setLocating(false);
+        }
+      },
+      (error) => {
+        setLocating(false);
+        if (error.code === error.PERMISSION_DENIED) {
+          setLocationError("Location permission denied");
+        } else {
+          setLocationError("Unable to retrieve your location");
+        }
+      }
+    );
+  };
+
   const handleSubmit = () => {
     const result = formSchema.safeParse(form);
     if (!result.success) {
@@ -71,7 +116,6 @@ export default function PersonalAccountForm() {
       return;
     }
     setErrors({});
-    // TODO: call API
     router.push("/get-started");
   };
 
@@ -81,7 +125,13 @@ export default function PersonalAccountForm() {
       {/* Full Name */}
       <FormField label="FULL NAME" error={errors.fullName}>
         <FieldRow error={errors.fullName}>
-          <input type="text" placeholder="Your full name" value={form.fullName} onChange={set("fullName")} style={{ ...baseInput, color: form.fullName ? "#000" : "#a09898" }} />
+          <input
+            type="text"
+            placeholder="Your full name"
+            value={form.fullName}
+            onChange={set("fullName")}
+            style={{ ...baseInput, color: form.fullName ? "#000" : "#a09898" }}
+          />
         </FieldRow>
       </FormField>
 
@@ -89,6 +139,7 @@ export default function PersonalAccountForm() {
       <FormField label="DATE OF BIRTH" error={errors.dob}>
         <FieldRow error={errors.dob}>
           <input
+            ref={dobRef}
             type="text"
             placeholder="dd/mm/yyyy"
             value={form.dob}
@@ -97,14 +148,30 @@ export default function PersonalAccountForm() {
             onBlur={(e) => { if (!e.target.value) e.target.type = "text"; }}
             style={{ ...baseInput, flex: 1, color: form.dob ? "#000" : "#a09898" }}
           />
-          <Calendar size={20} color="#a09898" style={{ flexShrink: 0 }} />
+          <button
+            type="button"
+            onClick={() => {
+              const input = dobRef.current;
+              if (!input) return;
+              input.type = "date";
+              input.focus();
+              input.showPicker?.();
+            }}
+            style={{ background: "none", border: "none", cursor: "pointer", padding: 0, flexShrink: 0 }}
+          >
+            <Calendar size={20} color="#a09898" />
+          </button>
         </FieldRow>
       </FormField>
 
       {/* Gender */}
       <FormField label="GENDER" error={errors.gender}>
         <FieldRow error={errors.gender}>
-          <select value={form.gender} onChange={set("gender")} style={{ ...baseInput, appearance: "none", color: form.gender ? "#000" : "#a09898" }}>
+          <select
+            value={form.gender}
+            onChange={set("gender")}
+            style={{ ...baseInput, appearance: "none", color: form.gender ? "#000" : "#a09898" }}
+          >
             <option value="" disabled hidden>Select gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
@@ -120,30 +187,67 @@ export default function PersonalAccountForm() {
         <div style={{ display: "flex", flexDirection: "column", gap: 15 }}>
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ flex: 1, height: 44, display: "flex", alignItems: "center", borderBottomWidth: 1, borderBottomStyle: "solid", borderBottomColor: errors.state ? "#d93025" : "#d9d9d9" }}>
-              <input type="text" placeholder="State" value={form.state} onChange={set("state")} style={{ ...baseInput, color: form.state ? "#000" : "#a09898" }} />
+              <input
+                type="text"
+                placeholder="State"
+                value={form.state}
+                onChange={set("state")}
+                style={{ ...baseInput, color: form.state ? "#000" : "#a09898" }}
+              />
             </div>
             <div style={{ flex: 1, height: 44, display: "flex", alignItems: "center", borderBottomWidth: 1, borderBottomStyle: "solid", borderBottomColor: errors.city ? "#d93025" : "#d9d9d9" }}>
-              <input type="text" placeholder="City" value={form.city} onChange={set("city")} style={{ ...baseInput, color: form.city ? "#000" : "#a09898" }} />
+              <input
+                type="text"
+                placeholder="City"
+                value={form.city}
+                onChange={set("city")}
+                style={{ ...baseInput, color: form.city ? "#000" : "#a09898" }}
+              />
             </div>
           </div>
-          <button type="button" style={{ display: "flex", gap: 8, alignItems: "center", background: "none", border: "none", cursor: "pointer", padding: 0, alignSelf: "flex-start" }}>
+          <button
+            type="button"
+            onClick={handleCurrentLocation}
+            disabled={locating}
+            style={{
+              display: "flex", gap: 8, alignItems: "center",
+              background: "none", border: "none",
+              cursor: locating ? "not-allowed" : "pointer",
+              padding: 0, alignSelf: "flex-start",
+              opacity: locating ? 0.6 : 1,
+            }}
+          >
             <MapPin size={20} color="#0052b4" />
-            <span style={{ fontSize: 16, fontWeight: 500, color: "#0052b4" }}>Use My Current Location</span>
+            <span style={{ fontSize: 16, fontWeight: 500, color: "#0052b4" }}>
+              {locating ? "Fetching location..." : "Use My Current Location"}
+            </span>
           </button>
+          {locationError && (
+            <span style={{ color: "#d93025", fontSize: 13 }}>{locationError}</span>
+          )}
         </div>
       </FormField>
 
       {/* Email */}
       <FormField label="EMAIL ADDRESS" error={errors.email}>
         <FieldRow error={errors.email}>
-          <input type="email" placeholder="Enter your email address" value={form.email} onChange={set("email")} style={{ ...baseInput, color: form.email ? "#000" : "#a09898" }} />
+          <input
+            type="email"
+            placeholder="Enter your email address"
+            value={form.email}
+            onChange={set("email")}
+            style={{ ...baseInput, color: form.email ? "#000" : "#a09898" }}
+          />
         </FieldRow>
       </FormField>
 
       {/* Phone */}
       <FormField label="PHONE NUMBER" error={errors.phone}>
         <FieldRow error={errors.phone}>
-          <button type="button" style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", cursor: "pointer", flexShrink: 0, paddingRight: 8 }}>
+          <button
+            type="button"
+            style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", cursor: "pointer", flexShrink: 0, paddingRight: 8 }}
+          >
             <div style={{ position: "relative", width: 30, height: 20 }}>
               <Image src="/images/flag.png" alt="BD" fill sizes="30px" className="object-cover rounded-sm" />
             </div>
@@ -151,15 +255,31 @@ export default function PersonalAccountForm() {
             <ChevronDown size={16} color="#5e5757" />
           </button>
           <div style={{ width: 1, height: 20, backgroundColor: "#d9d9d9", flexShrink: 0 }} />
-          <input type="tel" placeholder="Enter your number" value={form.phone} onChange={set("phone")} style={{ ...baseInput, marginLeft: 12, color: form.phone ? "#000" : "#a09898" }} />
+          <input
+            type="tel"
+            placeholder="Enter your number"
+            value={form.phone}
+            onChange={set("phone")}
+            style={{ ...baseInput, marginLeft: 12, color: form.phone ? "#000" : "#a09898" }}
+          />
         </FieldRow>
       </FormField>
 
       {/* Password */}
       <FormField label="PASSWORD" error={errors.password}>
         <FieldRow error={errors.password}>
-          <input type={showPassword ? "text" : "password"} placeholder="Create a strong password" value={form.password} onChange={set("password")} style={{ ...baseInput, color: form.password ? "#000" : "#a09898" }} />
-          <button type="button" onClick={() => setShowPassword((v) => !v)} style={{ background: "none", border: "none", cursor: "pointer", flexShrink: 0, padding: 0 }}>
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Create a strong password"
+            value={form.password}
+            onChange={set("password")}
+            style={{ ...baseInput, color: form.password ? "#000" : "#a09898" }}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((v) => !v)}
+            style={{ background: "none", border: "none", cursor: "pointer", flexShrink: 0, padding: 0 }}
+          >
             {showPassword ? <EyeOff size={20} color="#a09898" /> : <Eye size={20} color="#a09898" />}
           </button>
         </FieldRow>
@@ -168,8 +288,18 @@ export default function PersonalAccountForm() {
       {/* Confirm Password */}
       <FormField label="CONFIRM PASSWORD" error={errors.confirmPassword}>
         <FieldRow error={errors.confirmPassword}>
-          <input type={showConfirm ? "text" : "password"} placeholder="Re-enter password" value={form.confirmPassword} onChange={set("confirmPassword")} style={{ ...baseInput, color: form.confirmPassword ? "#000" : "#a09898" }} />
-          <button type="button" onClick={() => setShowConfirm((v) => !v)} style={{ background: "none", border: "none", cursor: "pointer", flexShrink: 0, padding: 0 }}>
+          <input
+            type={showConfirm ? "text" : "password"}
+            placeholder="Re-enter password"
+            value={form.confirmPassword}
+            onChange={set("confirmPassword")}
+            style={{ ...baseInput, color: form.confirmPassword ? "#000" : "#a09898" }}
+          />
+          <button
+            type="button"
+            onClick={() => setShowConfirm((v) => !v)}
+            style={{ background: "none", border: "none", cursor: "pointer", flexShrink: 0, padding: 0 }}
+          >
             {showConfirm ? <EyeOff size={20} color="#a09898" /> : <Eye size={20} color="#a09898" />}
           </button>
         </FieldRow>
@@ -212,7 +342,7 @@ export default function PersonalAccountForm() {
         <button type="button" style={{ fontSize: 12, color: "#025fc9", background: "none", border: "none", cursor: "pointer", padding: 0 }}>Privacy Policy</button>
       </p>
 
-      {/* Continue → /get-started */}
+      {/* Continue */}
       <button
         type="button"
         onClick={handleSubmit}
@@ -238,7 +368,11 @@ export default function PersonalAccountForm() {
 
       {/* Back */}
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <button type="button" onClick={() => router.back()} style={{ fontSize: 16, color: "#5e5757", background: "none", border: "none", cursor: "pointer" }}>
+        <button
+          type="button"
+          onClick={() => router.back()}
+          style={{ fontSize: 16, color: "#5e5757", background: "none", border: "none", cursor: "pointer" }}
+        >
           Back
         </button>
       </div>

@@ -50,6 +50,7 @@ export default function Page() {
               <div style={{ display: "flex", gap: 20 }}>
                 <button
                   type="button"
+                  onClick={() => router.push("/get-started")}
                   style={{ flex: 1, height: 44, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, border: "none", borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}
                 >
                   Yes, Keep Me Updated

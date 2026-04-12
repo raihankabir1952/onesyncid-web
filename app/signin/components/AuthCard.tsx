@@ -23,6 +23,8 @@ export default function AuthCard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<Tab>("phone");
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneError, setPhoneError] = useState("");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
@@ -37,7 +39,19 @@ export default function AuthCard() {
   };
 
   const handleSignIn = () => {
-    if (activeTab === "email" && !validateEmail()) return;
+    if (activeTab === "email") {
+      if (!validateEmail()) return;
+    } else {
+      if (!phoneNumber.trim()) {
+        setPhoneError("Phone number is required");
+        return;
+      }
+      if (phoneNumber.replace(/\D/g, "").length < 6) {
+        setPhoneError("Enter a valid phone number");
+        return;
+      }
+      setPhoneError("");
+    }
     router.push("/otp");
   };
 
@@ -118,7 +132,19 @@ export default function AuthCard() {
                 <p style={{ color: "#5e5757", fontSize: 16, fontWeight: 500, margin: 0 }}>
                   PHONE NUMBER
                 </p>
-                <PhoneInput selectedCountry={selectedCountry} />
+                <PhoneInput
+                  selectedCountry={selectedCountry}
+                  value={phoneNumber}
+                  onChange={(val) => {
+                    setPhoneNumber(val);
+                    if (phoneError) setPhoneError("");
+                  }}
+                />
+                {phoneError && (
+                  <span style={{ color: "#d93025", fontSize: 13, display: "inline-block" }}>
+                    {phoneError}
+                  </span>
+                )}
               </div>
             ) : (
               /* EMAIL */

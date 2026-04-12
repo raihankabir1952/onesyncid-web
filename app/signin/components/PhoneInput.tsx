@@ -6,11 +6,11 @@ import { CountryItem } from "../types/country";
 
 type Props = {
   selectedCountry: CountryItem;
+  value: string;
+  onChange: (val: string) => void;
 };
 
-export default function PhoneInput({
-  selectedCountry,
-}: Props) {
+export default function PhoneInput({ selectedCountry, value, onChange }: Props) {
   return (
     <div
       style={{
@@ -31,13 +31,7 @@ export default function PhoneInput({
           cursor: "pointer",
         }}
       >
-        <div
-          style={{
-            position: "relative",
-            width: 30,
-            height: 20,
-          }}
-        >
+        <div style={{ position: "relative", width: 30, height: 20 }}>
           <Image
             src={selectedCountry.flag}
             alt={selectedCountry.name}
@@ -56,6 +50,8 @@ export default function PhoneInput({
       <input
         type="tel"
         placeholder="Enter your number"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         style={{
           flex: 1,
           border: "none",

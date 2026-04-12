@@ -91,12 +91,15 @@ export default function CreateAccountPage() {
 
                 {/* Organization message */}
                 <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                  <p style={{ fontSize: 16, color: "#333", letterSpacing: "0.16px", margin: 0, textAlign: "justify" }}>
-                    Want to register your Brand, Business, Education, or NGO/Government?
-                  </p>
-                  <p style={{ fontSize: 16, color: "#0052b4", margin: 0, textAlign: "justify" }}>
-                    Please create a personal account first to proceed.
-                  </p>
+                    <button
+                      type="button"
+                      onClick={() => router.push("/create-account/personal")}
+                      style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}
+                    >
+                      <p style={{ fontSize: 16, color: "#0052b4", margin: 0, textAlign: "justify" }}>
+                        Please create a personal account first to proceed.
+                      </p>
+                    </button>
                 </div>
               </div>
             </div>

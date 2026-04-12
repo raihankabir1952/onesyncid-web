@@ -14,7 +14,7 @@ export default function Page() {
       <div className="relative flex-1 w-full" style={{ minHeight: 900 }}>
 
         {/* LEFT */}
-        <div className="absolute flex flex-col" style={{ left: "clamp(24px, 3.9vw, 56px)", top: 85, width: "clamp(300px, 37.3vw, 537px)", gap: 33 }}>
+        <div className="absolute flex flex-col" style={{ left: "clamp(24px, 3.9vw, 56px)", top: 105, width: "clamp(300px, 37.3vw, 537px)", gap: 33 }}>
           <div style={{ position: "relative", width: 232, height: 40 }}>
             <Image src="/images/logo.png" alt="OneSyncID" fill priority sizes="232px" className="object-contain object-left" />
           </div>
@@ -48,7 +48,7 @@ export default function Page() {
                   </div>
                   <div>
                     <p style={{ fontSize: 14, fontWeight: 500, color: "#333", margin: 0, letterSpacing: "0.14px" }}>iPhone 15 Pro</p>
-                    <p style={{ fontSize: 12, color: "#5e5757", margin: 0, letterSpacing: "0.12px" }}>Dhaka, Bangladesh · Just now</p>
+                    <p style={{ fontSize: 12, color: "#5e5757", margin: 0, letterSpacing: "0.12px" }}>Dhaka, Bangladesh·Just now</p>
                   </div>
                 </div>
               </div>

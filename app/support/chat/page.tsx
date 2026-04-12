@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { ArrowLeft, MessageCircle, Headphones, Paperclip, Image as ImageIcon, Mic, Send, MapPin, ChevronDown } from "lucide-react";
+import { ArrowLeft, MessageCircle, Paperclip, Image as ImageIcon, Mic, Send, MapPin, ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const QUICK_CHIPS = ["Account locked", "Passkey issue", "OTP not arriving", "Find my ID"];
@@ -15,7 +15,6 @@ export default function Page() {
 
   const handleSend = () => {
     if (!message.trim()) return;
-    // TODO: pass message to conversation via query or context
     router.push("/support/chat/conversation");
   };
 
@@ -67,12 +66,18 @@ export default function Page() {
                 <ArrowLeft size={24} color="#025fc9" />
               </button>
               <div style={{ flex: 1, display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
-                <div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
                   <p style={{ fontSize: 18, fontWeight: 600, color: "#000", margin: 0 }}>Smart Support</p>
                   <p style={{ fontSize: 14, color: "#5e5757", margin: 0 }}>Usually answers in seconds</p>
                 </div>
-                <button type="button" onClick={() => router.push("/support/agent")} style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}>
-                  <Headphones size={20} color="#025fc9" />
+                <button
+                  type="button"
+                  onClick={() => router.push("/support/agent")}
+                  style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}
+                >
+                  <div style={{ position: "relative", width: 20, height: 20, flexShrink: 0 }}>
+                    <Image src="/images/agent.png" alt="Agent Support" fill sizes="20px" className="object-contain" />
+                  </div>
                   <span style={{ fontSize: 16, fontWeight: 500, color: "#025fc9" }}>Agent Support</span>
                 </button>
               </div>
@@ -83,25 +88,25 @@ export default function Page() {
           <div style={{ flex: 1, backgroundColor: "rgba(185,185,185,0.05)", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
 
             {/* Welcome */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 30, alignItems: "center", padding: "60px 30px 20px" }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 30, alignItems: "center", paddingTop: 60 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "center", paddingLeft: 20, paddingRight: 20 }}>
                 <div style={{ width: 40, height: 40, backgroundColor: "rgba(2,95,201,0.1)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <MessageCircle size={24} color="#025fc9" />
                 </div>
-                <p style={{ fontSize: 14, color: "#a09898", textAlign: "center", margin: 0, lineHeight: "22.75px" }}>
+                <p style={{ fontSize: 14, color: "#a09898", textAlign: "center", margin: 0, lineHeight: "22.75px", letterSpacing: "0.14px" }}>
                   Tell me what&apos;s going wrong with your account.{"\n"}
                   I&apos;ll find the right answer or get you to someone who can help.
                 </p>
               </div>
 
-              {/* Quick chips — click navigates to conversation */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }}>
+              {/* Quick chips */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center", paddingLeft: 20, paddingRight: 20 }}>
                 {QUICK_CHIPS.map((chip) => (
                   <button
                     key={chip}
                     type="button"
                     onClick={() => router.push("/support/chat/conversation")}
-                    style={{ backgroundColor: "#fff", border: "1px solid #d9d9d9", borderRadius: 8, padding: "5px 10px", fontSize: 14, color: "#5e5757", cursor: "pointer", fontFamily: "inherit" }}
+                    style={{ backgroundColor: "#fff", border: "1px solid #d9d9d9", borderRadius: 8, padding: "5px 10px", fontSize: 14, color: "#5e5757", cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.14px", lineHeight: "22.75px" }}
                   >
                     {chip}
                   </button>
@@ -133,7 +138,6 @@ export default function Page() {
                   )}
                 </div>
 
-                {/* Mic → Send */}
                 <button
                   type="button"
                   onClick={handleSend}

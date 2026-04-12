@@ -159,6 +159,7 @@ export default function Page() {
                   <span style={{ fontSize: 14, color: "#333" }}>Need help?</span>
                   <button
                     type="button"
+                    onClick={() => router.push("/support")}
                     style={{ fontSize: 14, fontWeight: 500, color: "#0052b4", background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}
                   >
                     Contact Support
