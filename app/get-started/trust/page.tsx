@@ -1,103 +1,66 @@
 "use client";
 
-import Image from "next/image";
-import { MapPin, ChevronDown, Smartphone } from "lucide-react";
+import { Smartphone } from "lucide-react";
 import { useRouter } from "next/navigation";
+import PageLayout from "@/components/PageLayout";
 
 export default function Page() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Switzer', sans-serif" }}>
+    <PageLayout illustration="/images/trust.png" cardVerticalCenter>
+      <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
 
-      {/* ── MAIN ── */}
-      <div className="relative flex-1 w-full" style={{ minHeight: 900 }}>
+        <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>
+          Do you trust this device?
+        </p>
 
-        {/* LEFT */}
-        <div className="absolute flex flex-col" style={{ left: "clamp(24px, 3.9vw, 56px)", top: 105, width: "clamp(300px, 37.3vw, 537px)", gap: 33 }}>
-          <div style={{ position: "relative", width: 232, height: 40 }}>
-            <Image src="/images/logo.png" alt="OneSyncID" fill priority sizes="232px" className="object-contain object-left" />
-          </div>
-          <div style={{ position: "relative", width: "100%", paddingBottom: `${(514 / 500.44) * 100}%` }}>
-            <Image src="/images/trust.png" alt="" fill priority sizes="(max-width: 768px) 300px, 37vw" className="object-contain object-top" />
-          </div>
-          <p style={{ color: "#0052b4", fontSize: 27, fontWeight: 700, lineHeight: "34px", letterSpacing: "0.27px", whiteSpace: "nowrap" }}>
-            Verify Once. Access Everything.
-          </p>
-        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
 
-        {/* RIGHT CARD */}
-        <div className="absolute bg-white flex flex-col justify-between" style={{ right: "clamp(16px, 4.2vw, 60px)", top: 75, width: "clamp(320px, 41.7vw, 600px)", height: 776, borderRadius: 8, boxShadow: "0px 0px 5.5px 1.5px rgba(0,0,0,0.25)", padding: 30 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <p style={{ fontSize: 16, color: "#333", margin: 0 }}>
+              Trusted devices skip verification on future sign-ins. Only trust devices you own and regularly use.
+            </p>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
-
-            <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>Do you trust this device?</p>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-
-                <p style={{ fontSize: 16, color: "#333", margin: 0 }}>
-                  Trusted devices skip verification on future sign-ins. Only trust devices you own and regularly use.
-                </p>
-
-                {/* Device card */}
-                <div style={{ display: "flex", alignItems: "center", gap: 10, border: "1px solid #d9d9d9", borderRadius: 12, padding: "8px 20px", backgroundColor: "#fff" }}>
-                  <div style={{ backgroundColor: "rgba(2,95,201,0.1)", borderRadius: 8, padding: 8, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    <Smartphone size={20} color="#025fc9" />
-                  </div>
-                  <div>
-                    <p style={{ fontSize: 14, fontWeight: 500, color: "#333", margin: 0, letterSpacing: "0.14px" }}>iPhone 15 Pro</p>
-                    <p style={{ fontSize: 12, color: "#5e5757", margin: 0, letterSpacing: "0.12px" }}>Dhaka, Bangladesh·Just now</p>
-                  </div>
-                </div>
+            {/* Device card */}
+            <div style={{ display: "flex", alignItems: "center", gap: 10, border: "1px solid #d9d9d9", borderRadius: 12, padding: "8px 20px", backgroundColor: "#fff" }}>
+              <div style={{ backgroundColor: "rgba(2,95,201,0.1)", borderRadius: 8, padding: 8, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <Smartphone size={20} color="#025fc9" />
               </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-                <p style={{ fontSize: 14, color: "#5e5757", margin: 0 }}>
-                  Choosing &quot;Don&apos;t Trust&quot; means you&apos;ll need to verify with OTP every time you sign in on this device.
-                </p>
-
-                {/* Buttons */}
-                <div style={{ display: "flex", gap: 20 }}>
-                  <button
-                    type="button"
-                    onClick={() => router.push("/get-started/welcome")}
-                    style={{ flex: 1, height: 48, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, border: "none", borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}
-                  >
-                    Yes, Trust This Device
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => router.push("/get-started/welcome")}
-                    style={{ flex: 1, height: 48, backgroundColor: "transparent", color: "#5e5757", fontSize: 16, fontWeight: 500, border: "1.5px solid #d9d9d9", borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}
-                  >
-                    Don&apos;t Trust
-                  </button>
-                </div>
+              <div>
+                <p style={{ fontSize: 14, fontWeight: 500, color: "#333", margin: 0, letterSpacing: "0.14px" }}>iPhone 15 Pro</p>
+                <p style={{ fontSize: 12, color: "#5e5757", margin: 0, letterSpacing: "0.12px" }}>Dhaka, Bangladesh · Just now</p>
               </div>
             </div>
           </div>
 
-          {/* Bottom logo */}
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <div style={{ position: "relative", width: 98, height: 17 }}>
-              <Image src="/images/logo.png" alt="OneSyncID" fill sizes="98px" className="object-contain" />
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <p style={{ fontSize: 14, color: "#5e5757", margin: 0 }}>
+              Choosing &quot;Don&apos;t Trust&quot; means you&apos;ll need to verify with OTP every time you sign in on this device.
+            </p>
+
+            {/* Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                type="button"
+                onClick={() => router.push("/get-started/welcome")}
+                className="flex-1"
+                style={{ height: 48, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, border: "none", borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}
+              >
+                Yes, Trust This Device
+              </button>
+              <button
+                type="button"
+                onClick={() => router.push("/get-started/welcome")}
+                className="flex-1"
+                style={{ height: 48, backgroundColor: "transparent", color: "#5e5757", fontSize: 16, fontWeight: 500, border: "1.5px solid #d9d9d9", borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}
+              >
+                Don&apos;t Trust
+              </button>
             </div>
           </div>
         </div>
       </div>
-
-      {/* ── FOOTER ── */}
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 20, paddingBottom: 40, color: "#605353", fontSize: 14 }}>
-        <span style={{ cursor: "pointer" }}>Privacy &amp; Terms</span>
-        <span style={{ cursor: "pointer" }}>Contact us</span>
-        <button style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", color: "#605353", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}>
-          <MapPin size={20} color="#605353" />
-          <span>Change region</span>
-          <ChevronDown size={24} color="#605353" />
-        </button>
-      </div>
-    </div>
+    </PageLayout>
   );
 }

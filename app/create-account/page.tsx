@@ -12,7 +12,7 @@ export default function CreateAccountPage() {
     <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Switzer', sans-serif" }}>
 
       {/* ===================== DESKTOP LAYOUT (lg+) ===================== */}
-      <div className="hidden lg:block relative flex-1" style={{ minHeight: 750 }}>
+      <div className="hidden lg:block relative flex-1" style={{ minHeight: 920 }}>
 
         {/* LEFT */}
         <div className="absolute flex flex-col" style={{ left: 56, top: "50%", transform: "translateY(-50%)", width: 537, gap: 33 }}>
@@ -31,11 +31,8 @@ export default function CreateAccountPage() {
         <div
           className="absolute bg-white flex flex-col"
           style={{
-            right: 60,
-            top: "50%",
-            transform: "translateY(-50%)",
-            width: 600,
-            borderRadius: 8,
+            right: 60, top: "50%", transform: "translateY(-50%)",
+            width: 600, borderRadius: 8,
             boxShadow: "0px 0px 5.5px 1.5px rgba(0,0,0,0.25)",
             padding: 30,
           }}
@@ -192,10 +189,10 @@ export default function CreateAccountPage() {
       </div>
 
       {/* ===================== FOOTER ===================== */}
-      <div className="flex flex-wrap justify-center items-center gap-5 pb-10 text-[#605353] text-[14px] px-4">
-        <span className="cursor-pointer">Privacy &amp; Terms</span>
-        <span className="cursor-pointer">Contact us</span>
-        <button className="flex items-center gap-[3px] bg-transparent border-none text-[#605353] text-[14px] cursor-pointer">
+      <div className="flex flex-wrap justify-center items-center gap-4 pb-10 pt-5 px-6 text-[#605353] text-[14px]">
+        <span className="cursor-pointer whitespace-nowrap shrink-0">Privacy &amp; Terms</span>
+        <span className="cursor-pointer whitespace-nowrap shrink-0">Contact us</span>
+        <button className="flex items-center gap-[3px] bg-transparent border-none text-[#605353] text-[14px] cursor-pointer whitespace-nowrap shrink-0">
           <MapPin size={20} color="#605353" />
           <span>Change region</span>
           <ChevronDown size={24} color="#605353" />
