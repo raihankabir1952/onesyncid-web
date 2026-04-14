@@ -21,8 +21,8 @@ export default function Page() {
           <Image src="/images/logo.png" alt="OneSyncID" fill priority sizes="180px" className="object-contain object-left" />
         </div>
 
-        {/* Illustration */}
-        <div className="relative w-full" style={{ paddingBottom: `${(514 / 500.44) * 100}%` }}>
+        {/* Illustration — fixed height mobile-এ বেশি gap হবে না */}
+        <div className="relative w-full h-[200px]">
           <Image src="/images/union.png" alt="" fill priority sizes="90vw" className="object-contain object-top" />
         </div>
 

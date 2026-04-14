@@ -94,13 +94,13 @@ export default function AuthCard({ isMobile = false }: Props) {
         )}
 
         {/* Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3">
-          <button type="button" onClick={handleSignIn} className="flex-1"
-            style={{ height: 48, backgroundColor: "#025fc9", color: "#fff", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 16, fontWeight: 500, fontFamily: "inherit" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <button type="button" onClick={handleSignIn}
+            style={{ width: "100%", minHeight: 48, backgroundColor: "#025fc9", color: "#fff", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 16, fontWeight: 500, fontFamily: "inherit", padding: "12px 16px" }}>
             Sign In
           </button>
-          <button type="button" onClick={() => router.push("/create-account")} className="flex-1"
-            style={{ height: 48, backgroundColor: "transparent", color: "#025fc9", borderRadius: 8, border: "1.5px solid #025fc9", cursor: "pointer", fontSize: 16, fontWeight: 500, fontFamily: "inherit" }}>
+          <button type="button" onClick={() => router.push("/create-account")}
+            style={{ width: "100%", minHeight: 48, backgroundColor: "transparent", color: "#025fc9", borderRadius: 8, border: "1.5px solid #025fc9", cursor: "pointer", fontSize: 16, fontWeight: 500, fontFamily: "inherit", padding: "12px 16px" }}>
             Create OneSyncID
           </button>
         </div>
