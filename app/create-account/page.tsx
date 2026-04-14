@@ -30,13 +30,13 @@ export default function CreateAccountPage() {
           </div>
 
           {/* Illustration */}
-          <div className="relative w-full" style={{ paddingBottom: `${(514 / 500.44) * 100}%` }}>
+          <div className="relative w-[280px] lg:w-full" style={{ paddingBottom: `${(514 / 500.44) * 100}%` }}>
             <Image
               src="/images/create-account.png"
               alt=""
               fill
               priority
-              sizes="(max-width: 768px) 90vw, 45vw"
+              sizes="(max-width: 768px) 280px, 45vw"
               className="object-contain object-top"
             />
           </div>
