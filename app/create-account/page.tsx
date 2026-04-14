@@ -9,14 +9,14 @@ export default function CreateAccountPage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Switzer', sans-serif" }}>
-
+    <div
+      className="min-h-screen bg-white flex flex-col"
+      style={{ fontFamily: "'Switzer', sans-serif" }}
+    >
       {/* MAIN CONTENT */}
-      <div className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-8 px-6 py-10 lg:px-16">
-
+      <div className="flex-1 flex flex-col lg:flex-row items-start lg:items-center justify-center gap-8 px-6 py-10 lg:px-16">
         {/* LEFT */}
         <div className="flex flex-col items-start gap-6 w-full lg:w-[45%] max-w-[537px]">
-
           {/* Logo */}
           <div className="relative w-[180px] h-[32px] lg:w-[232px] lg:h-[40px]">
             <Image
@@ -30,14 +30,17 @@ export default function CreateAccountPage() {
           </div>
 
           {/* Illustration */}
-          <div className="relative w-[280px] lg:w-full" style={{ paddingBottom: `${(514 / 500.44) * 100}%` }}>
+          <div
+            className="relative w-[220px] sm:w-[260px] lg:w-full"
+            style={{ paddingBottom: `${(514 / 500.44) * 100}%` }}
+          >
             <Image
               src="/images/create-account.png"
               alt=""
               fill
               priority
-              sizes="(max-width: 768px) 280px, 45vw"
-              className="object-contain object-top"
+              sizes="(max-width: 640px) 220px, (max-width: 1024px) 260px, 45vw"
+              className="object-contain object-left-top"
             />
           </div>
 
@@ -54,7 +57,6 @@ export default function CreateAccountPage() {
         >
           <div className="flex flex-col gap-8 min-h-0 lg:min-h-[659px] justify-between">
             <div className="flex flex-col gap-8">
-
               {/* Title */}
               <div className="flex flex-col gap-2">
                 <p className="text-2xl lg:text-[30px] font-semibold text-black">
@@ -79,7 +81,6 @@ export default function CreateAccountPage() {
 
                 {/* Tabs */}
                 <div className="flex items-center border border-[#d9d9d9] rounded-xl px-4 py-2">
-                  {/* Personal */}
                   <button
                     type="button"
                     onClick={() => router.push("/create-account/personal")}
@@ -87,7 +88,7 @@ export default function CreateAccountPage() {
                   >
                     Personal
                   </button>
-                  {/* Organization — active */}
+
                   <button
                     type="button"
                     className="flex-1 flex items-center justify-center py-2 text-[#025fc9] text-base font-medium tracking-wide bg-transparent cursor-default"
