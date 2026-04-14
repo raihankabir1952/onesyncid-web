@@ -9,14 +9,14 @@ export default function CreateAccountPage() {
   const router = useRouter();
 
   return (
-    <div
-      className="min-h-screen bg-white flex flex-col"
-      style={{ fontFamily: "'Switzer', sans-serif" }}
-    >
+    <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Switzer', sans-serif" }}>
+      
       {/* MAIN CONTENT */}
-      <div className="flex-1 flex flex-col lg:flex-row items-start lg:items-center justify-center gap-8 px-6 py-10 lg:px-16">
+      <div className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-8 px-6 py-10 lg:px-16">
+
         {/* LEFT */}
-        <div className="flex flex-col items-start gap-6 w-full lg:w-[45%] max-w-[537px]">
+        <div className="flex flex-col items-center lg:items-start gap-6 w-full lg:w-[45%] max-w-[537px]">
+          
           {/* Logo */}
           <div className="relative w-[180px] h-[32px] lg:w-[232px] lg:h-[40px]">
             <Image
@@ -30,33 +30,30 @@ export default function CreateAccountPage() {
           </div>
 
           {/* Illustration */}
-          <div
-            className="relative w-[220px] sm:w-[260px] lg:w-full"
-            style={{ paddingBottom: `${(514 / 500.44) * 100}%` }}
-          >
+          <div className="relative w-full" style={{ paddingBottom: `${(514 / 500.44) * 100}%` }}>
             <Image
               src="/images/create-account.png"
               alt=""
               fill
               priority
-              sizes="(max-width: 640px) 220px, (max-width: 1024px) 260px, 45vw"
-              className="object-contain object-left-top"
+              sizes="(max-width: 768px) 90vw, 45vw"
+              className="object-contain object-top"
             />
           </div>
 
           {/* Tagline */}
-          <p className="text-left text-[#0052b4] text-xl lg:text-[27px] font-bold leading-snug tracking-wide">
+          <p className="text-center lg:text-left text-[#0052b4] text-xl lg:text-[27px] font-bold leading-snug tracking-wide">
             Verify Once. Access Everything.
           </p>
         </div>
 
         {/* RIGHT CARD */}
-        <div
-          className="w-full lg:w-[45%] max-w-[600px] bg-white rounded-lg p-6 lg:p-8"
+        <div className="w-full lg:w-[45%] max-w-[600px] bg-white rounded-lg p-6 lg:p-8"
           style={{ boxShadow: "0px 0px 5.5px 1.5px rgba(0,0,0,0.25)" }}
         >
           <div className="flex flex-col gap-8 min-h-0 lg:min-h-[659px] justify-between">
             <div className="flex flex-col gap-8">
+
               {/* Title */}
               <div className="flex flex-col gap-2">
                 <p className="text-2xl lg:text-[30px] font-semibold text-black">
@@ -81,6 +78,7 @@ export default function CreateAccountPage() {
 
                 {/* Tabs */}
                 <div className="flex items-center border border-[#d9d9d9] rounded-xl px-4 py-2">
+                  {/* Personal */}
                   <button
                     type="button"
                     onClick={() => router.push("/create-account/personal")}
@@ -88,10 +86,10 @@ export default function CreateAccountPage() {
                   >
                     Personal
                   </button>
-
+                  {/* Organization — active */}
                   <button
                     type="button"
-                    className="flex-1 flex items-center justify-center py-2 text-[#025fc9] text-base font-medium tracking-wide bg-transparent cursor-default"
+                    className="flex-1 flex items-center justify-center py-2 text-[#025fc9] text-base font-medium tracking-wide bg-transparent border-none cursor-default border-b-[3px] border-b-[#025fc9]"
                     style={{ borderBottom: "3px solid #025fc9" }}
                   >
                     Organization
@@ -112,8 +110,7 @@ export default function CreateAccountPage() {
             </div>
 
             {/* Merge accounts banner */}
-            <div
-              className="flex gap-2 items-start justify-center rounded-xl px-4 py-3"
+            <div className="flex gap-2 items-start justify-center rounded-xl px-4 py-3"
               style={{
                 backgroundColor: "rgba(2,95,201,0.05)",
                 border: "1px solid rgba(2,95,201,0.2)",
