@@ -10,109 +10,119 @@ export default function CreateAccountPage() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Switzer', sans-serif" }}>
-      <div className="relative flex-1 w-full" style={{ minHeight: 900 }}>
+      
+      {/* MAIN CONTENT */}
+      <div className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-8 px-6 py-10 lg:px-16">
 
         {/* LEFT */}
-        <div className="absolute flex flex-col" style={{ left: "clamp(24px, 3.9vw, 56px)", top: 85, width: "clamp(300px, 37.3vw, 537px)", gap: 33 }}>
-          <div style={{ position: "relative", width: 232, height: 40 }}>
-            <Image src="/images/logo.png" alt="OneSyncID" fill priority loading="eager" sizes="232px" className="object-contain object-left" />
+        <div className="flex flex-col items-center lg:items-start gap-6 w-full lg:w-[45%] max-w-[537px]">
+          
+          {/* Logo */}
+          <div className="relative w-[180px] h-[32px] lg:w-[232px] lg:h-[40px]">
+            <Image
+              src="/images/logo.png"
+              alt="OneSyncID"
+              fill
+              priority
+              sizes="232px"
+              className="object-contain object-left"
+            />
           </div>
-          <div style={{ position: "relative", width: "100%", paddingBottom: `${(514 / 500.44) * 100}%` }}>
-            <Image src="/images/create-account.png" alt="" fill priority loading="eager" sizes="(max-width: 768px) 300px, (max-width: 1200px) 37vw, 537px" className="object-contain object-top" />
+
+          {/* Illustration */}
+          <div className="relative w-full" style={{ paddingBottom: `${(514 / 500.44) * 100}%` }}>
+            <Image
+              src="/images/create-account.png"
+              alt=""
+              fill
+              priority
+              sizes="(max-width: 768px) 90vw, 45vw"
+              className="object-contain object-top"
+            />
           </div>
-          <p style={{ color: "#0052b4", fontSize: 27, fontWeight: 700, lineHeight: "34px", letterSpacing: "0.27px", whiteSpace: "nowrap" }}>
+
+          {/* Tagline */}
+          <p className="text-center lg:text-left text-[#0052b4] text-xl lg:text-[27px] font-bold leading-snug tracking-wide">
             Verify Once. Access Everything.
           </p>
         </div>
 
         {/* RIGHT CARD */}
-        <div
-          className="absolute bg-white flex flex-col"
-          style={{
-            right: "clamp(16px, 4.2vw, 60px)",
-            top: "50%", transform: "translateY(-50%)",
-            width: "clamp(320px, 41.7vw, 600px)",
-            borderRadius: 8,
-            boxShadow: "0px 0px 5.5px 1.5px rgba(0,0,0,0.25)",
-            padding: 30,
-          }}
+        <div className="w-full lg:w-[45%] max-w-[600px] bg-white rounded-lg p-6 lg:p-8"
+          style={{ boxShadow: "0px 0px 5.5px 1.5px rgba(0,0,0,0.25)" }}
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: 40, minHeight: 659, justifyContent: "space-between" }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+          <div className="flex flex-col gap-8 min-h-0 lg:min-h-[659px] justify-between">
+            <div className="flex flex-col gap-8">
 
               {/* Title */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>Create your OneSyncID</p>
-                <p style={{ fontSize: 14, color: "#a09898", margin: 0 }}>
+              <div className="flex flex-col gap-2">
+                <p className="text-2xl lg:text-[30px] font-semibold text-black">
+                  Create your OneSyncID
+                </p>
+                <p className="text-sm text-[#a09898]">
                   Already have an account?{" "}
                   <button
                     type="button"
                     onClick={() => router.push("/merge")}
-                    style={{ color: "#025fc9", fontWeight: 500, background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: 14 }}
+                    className="text-[#025fc9] font-medium bg-transparent border-none cursor-pointer text-sm"
                   >
                     Merge now
                   </button>
                 </p>
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-                <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0 }}>ACCOUNT TYPE</p>
+              <div className="flex flex-col gap-4">
+                <p className="text-sm lg:text-base font-medium text-[#5e5757] tracking-wider">
+                  ACCOUNT TYPE
+                </p>
 
                 {/* Tabs */}
-                <div style={{ display: "flex", alignItems: "center", borderWidth: 1, borderStyle: "solid", borderColor: "#d9d9d9", borderRadius: 12, paddingLeft: 16, paddingRight: 16, paddingTop: 8, paddingBottom: 8 }}>
+                <div className="flex items-center border border-[#d9d9d9] rounded-xl px-4 py-2">
                   {/* Personal */}
                   <button
                     type="button"
                     onClick={() => router.push("/create-account/personal")}
-                    style={{
-                      flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: 8,
-                      borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0,
-                      borderBottomWidth: 0, borderBottomStyle: "solid", borderBottomColor: "#025fc9",
-                      color: "#5e5757", fontSize: 16, fontWeight: 500, letterSpacing: "0.16px",
-                      background: "none", cursor: "pointer",
-                    }}
+                    className="flex-1 flex items-center justify-center py-2 text-[#5e5757] text-base font-medium tracking-wide bg-transparent border-none cursor-pointer"
                   >
                     Personal
                   </button>
                   {/* Organization — active */}
                   <button
                     type="button"
-                    style={{
-                      flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: 8,
-                      borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0,
-                      borderBottomWidth: 3, borderBottomStyle: "solid", borderBottomColor: "#025fc9",
-                      color: "#025fc9", fontSize: 16, fontWeight: 500, letterSpacing: "0.16px",
-                      background: "none", cursor: "default",
-                    }}
+                    className="flex-1 flex items-center justify-center py-2 text-[#025fc9] text-base font-medium tracking-wide bg-transparent border-none cursor-default border-b-[3px] border-b-[#025fc9]"
+                    style={{ borderBottom: "3px solid #025fc9" }}
                   >
                     Organization
                   </button>
                 </div>
 
                 {/* Organization message */}
-                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    <button
-                      type="button"
-                      onClick={() => router.push("/create-account/personal")}
-                      style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}
-                    >
-                      <p style={{ fontSize: 16, color: "#0052b4", margin: 0, textAlign: "justify" }}>
-                        Please create a personal account first to proceed.
-                      </p>
-                    </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => router.push("/create-account/personal")}
+                  className="bg-transparent border-none p-0 cursor-pointer text-left"
+                >
+                  <p className="text-base text-[#0052b4] text-justify">
+                    Please create a personal account first to proceed.
+                  </p>
+                </button>
               </div>
             </div>
 
             {/* Merge accounts banner */}
-            <div style={{ display: "flex", gap: 6, alignItems: "flex-start", justifyContent: "center", backgroundColor: "rgba(2,95,201,0.05)", borderWidth: 1, borderStyle: "solid", borderColor: "rgba(2,95,201,0.2)", borderRadius: 12, paddingLeft: 16, paddingRight: 16, paddingTop: 10, paddingBottom: 10 }}>
-              <Info size={16} color="#025fc9" style={{ flexShrink: 0, marginTop: 1 }} />
-              <p style={{ fontSize: 12, color: "#025fc9", letterSpacing: "0.12px", margin: 0, lineHeight: "16px" }}>
+            <div className="flex gap-2 items-start justify-center rounded-xl px-4 py-3"
+              style={{
+                backgroundColor: "rgba(2,95,201,0.05)",
+                border: "1px solid rgba(2,95,201,0.2)",
+              }}
+            >
+              <Info size={16} color="#025fc9" className="flex-shrink-0 mt-[2px]" />
+              <p className="text-xs text-[#025fc9] tracking-wide leading-4 m-0">
                 Already have an account with another email?{" "}
                 <button
                   type="button"
                   onClick={() => router.push("/merge")}
-                  style={{ fontSize: 12, fontWeight: 600, color: "#025fc9", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                  className="text-xs font-semibold text-[#025fc9] bg-transparent border-none cursor-pointer p-0"
                 >
                   Merge accounts
                 </button>
@@ -121,19 +131,25 @@ export default function CreateAccountPage() {
           </div>
 
           {/* Bottom logo */}
-          <div style={{ display: "flex", justifyContent: "center", marginTop: 30 }}>
-            <div style={{ position: "relative", width: 98, height: 17 }}>
-              <Image src="/images/logo.png" alt="OneSyncID" fill sizes="98px" className="object-contain" />
+          <div className="flex justify-center mt-6">
+            <div className="relative w-[98px] h-[17px]">
+              <Image
+                src="/images/logo.png"
+                alt="OneSyncID"
+                fill
+                sizes="98px"
+                className="object-contain"
+              />
             </div>
           </div>
         </div>
       </div>
 
       {/* FOOTER */}
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 20, paddingBottom: 40, color: "#605353", fontSize: 14 }}>
-        <span style={{ cursor: "pointer" }}>Privacy &amp; Terms</span>
-        <span style={{ cursor: "pointer" }}>Contact us</span>
-        <button style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", color: "#605353", fontSize: 14, cursor: "pointer" }}>
+      <div className="flex flex-wrap justify-center items-center gap-4 pb-8 text-[#605353] text-sm px-4">
+        <span className="cursor-pointer">Privacy &amp; Terms</span>
+        <span className="cursor-pointer">Contact us</span>
+        <button className="flex items-center gap-1 bg-transparent border-none text-[#605353] text-sm cursor-pointer">
           <MapPin size={20} color="#605353" />
           <span>Change region</span>
           <ChevronDown size={24} color="#605353" />
