@@ -6,7 +6,7 @@ export default function LeftIllustration() {
       className="absolute flex flex-col"
       style={{
         left: "clamp(24px, 3.9vw, 56px)",
-        top: 85,
+        top: 50,
         width: "clamp(300px, 37.3vw, 537px)",
         gap: 30,
       }}

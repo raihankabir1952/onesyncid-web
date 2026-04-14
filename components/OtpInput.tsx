@@ -4,7 +4,7 @@ import React, { useRef, KeyboardEvent, ClipboardEvent } from "react";
 
 type OtpStatus = "idle" | "success" | "error";
 
-interface OtpInputProps {
+export interface OtpInputProps {
   value: string[];
   onChange: (value: string[]) => void;
   status: OtpStatus;
@@ -49,15 +49,7 @@ export default function OtpInput({ value, onChange, status }: OtpInputProps) {
   const filledCount = value.filter((d) => d !== "").length;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: 10,
-        width: "100%",
-        /* ✅ prevent overflow */
-        boxSizing: "border-box",
-      }}
-    >
+    <div style={{ display: "flex", gap: 10, width: "100%", boxSizing: "border-box" }}>
       {value.map((digit, i) => {
         const isActive = status === "idle" && i === filledCount;
         const hasFill = digit !== "";
@@ -81,10 +73,8 @@ export default function OtpInput({ value, onChange, status }: OtpInputProps) {
             onPaste={handlePaste}
             onFocus={(e) => e.target.select()}
             style={{
-              /* ✅ flex:1 with minWidth:0 prevents overflow */
               flex: "1 1 0",
               minWidth: 0,
-              /* Figma: h=80, but use aspect-ratio so it scales with width */
               aspectRatio: "1 / 1",
               maxHeight: 80,
               borderRadius: 12,

@@ -7,6 +7,7 @@ interface PageLayoutProps {
   children: React.ReactNode;
   cardVerticalCenter?: boolean;
   stickyHeader?: React.ReactNode;
+  leftFixed?: boolean; // ← নতুন prop
 }
 
 export default function PageLayout({
@@ -14,6 +15,7 @@ export default function PageLayout({
   children,
   cardVerticalCenter = false,
   stickyHeader,
+  leftFixed = false,
 }: PageLayoutProps) {
   return (
     <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Switzer', sans-serif" }}>
@@ -22,7 +24,16 @@ export default function PageLayout({
       <div className="hidden lg:block relative flex-1" style={{ minHeight: 920 }}>
 
         {/* LEFT */}
-        <div className="absolute flex flex-col" style={{ left: 56, top: "50%", transform: "translateY(-50%)", width: 537, gap: 33 }}>
+        <div
+          className="absolute flex flex-col"
+          style={{
+            left: 56,
+            top: leftFixed ? 50 : "50%",
+            transform: leftFixed ? "none" : "translateY(-50%)",
+            width: 537,
+            gap: 33,
+          }}
+        >
           <div style={{ position: "relative", width: 232, height: 40 }}>
             <Image src="/images/logo.png" alt="OneSyncID" fill priority sizes="232px" className="object-contain object-left" />
           </div>
