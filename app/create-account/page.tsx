@@ -11,28 +11,43 @@ export default function CreateAccountPage() {
   return (
     <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Switzer', sans-serif" }}>
 
-      {/* ===================== DESKTOP LAYOUT (lg+) ===================== */}
-      <div className="hidden lg:block relative flex-1" style={{ minHeight: 920 }}>
+      {/* ===================== DESKTOP LAYOUT (xl+ / 1280px+) ===================== */}
+      <div className="hidden xl:block relative flex-1" style={{ minHeight: 920 }}>
 
-        {/* LEFT */}
-        <div className="absolute flex flex-col" style={{ left: 56, top: "50%", transform: "translateY(-50%)", width: 537, gap: 33 }}>
-          <div style={{ position: "relative", width: 232, height: 40 }}>
+        {/* LEFT COLUMN — pinned: left:56, top:85 | gap:30 outer, gap:33 inner */}
+        <div
+          className="absolute flex flex-col"
+          style={{ left: 56, top: 85, width: 537, gap: 30 }}
+        >
+          {/* Logo */}
+          <div style={{ position: "relative", width: 232, height: 40, flexShrink: 0 }}>
             <Image src="/images/logo.png" alt="OneSyncID" fill priority sizes="232px" className="object-contain object-left" />
           </div>
-          <div style={{ position: "relative", width: 500, height: 514 }}>
-            <Image src="/images/create-account.png" alt="" fill priority sizes="500px" className="object-contain object-top" />
+
+          {/* Illustration + tagline — inner gap: 33 */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 33 }}>
+            <div style={{ position: "relative", width: 500, height: 514, flexShrink: 0 }}>
+              <Image src="/images/create-account.png" alt="" fill priority sizes="500px" className="object-contain object-top" />
+            </div>
+            <p style={{
+              color: "#0052b4", fontSize: 27, fontWeight: 700,
+              lineHeight: "34px", letterSpacing: "0.27px",
+              whiteSpace: "nowrap", margin: 0,
+            }}>
+              Verify Once. Access Everything.
+            </p>
           </div>
-          <p style={{ color: "#0052b4", fontSize: 27, fontWeight: 700, lineHeight: "34px", letterSpacing: "0.27px", whiteSpace: "nowrap" }}>
-            Verify Once. Access Everything.
-          </p>
         </div>
 
-        {/* RIGHT CARD */}
+        {/* RIGHT CARD — vertically centered */}
         <div
           className="absolute bg-white flex flex-col"
           style={{
-            right: 60, top: "50%", transform: "translateY(-50%)",
-            width: 600, borderRadius: 8,
+            right: 60,
+            top: "50%",
+            transform: "translateY(-50%)",
+            width: 600,
+            borderRadius: 8,
             boxShadow: "0px 0px 5.5px 1.5px rgba(0,0,0,0.25)",
             padding: 30,
           }}
@@ -42,7 +57,9 @@ export default function CreateAccountPage() {
 
               {/* Title */}
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>Create your OneSyncID</p>
+                <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>
+                  Create your OneSyncID
+                </p>
                 <p style={{ fontSize: 14, color: "#a09898", margin: 0 }}>
                   Already have an account?{" "}
                   <button type="button" onClick={() => router.push("/merge")}
@@ -52,17 +69,31 @@ export default function CreateAccountPage() {
                 </p>
               </div>
 
+              {/* Account type section */}
               <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                 <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0 }}>ACCOUNT TYPE</p>
 
-                {/* Tabs */}
-                <div style={{ display: "flex", alignItems: "center", border: "1px solid #d9d9d9", borderRadius: 12, padding: "8px 16px" }}>
+                {/* Tab container */}
+                <div style={{
+                  display: "flex", alignItems: "center",
+                  border: "1px solid #d9d9d9", borderRadius: 12,
+                  padding: "8px 16px",
+                }}>
                   <button type="button" onClick={() => router.push("/create-account/personal")}
-                    style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, background: "none", border: "none", cursor: "pointer", color: "#5e5757", fontSize: 16, fontWeight: 500, letterSpacing: "0.16px" }}>
+                    style={{
+                      flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
+                      padding: 8, background: "none", border: "none", cursor: "pointer",
+                      color: "#5e5757", fontSize: 16, fontWeight: 500, letterSpacing: "0.16px",
+                    }}>
                     Personal
                   </button>
                   <button type="button"
-                    style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, background: "none", cursor: "default", border: "none", borderBottom: "3px solid #025fc9", color: "#025fc9", fontSize: 16, fontWeight: 500, letterSpacing: "0.16px" }}>
+                    style={{
+                      flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
+                      padding: 8, background: "none", cursor: "default", border: "none",
+                      borderBottom: "3px solid #025fc9",
+                      color: "#025fc9", fontSize: 16, fontWeight: 500, letterSpacing: "0.16px",
+                    }}>
                     Organization
                   </button>
                 </div>
@@ -83,7 +114,12 @@ export default function CreateAccountPage() {
             </div>
 
             {/* Merge banner */}
-            <div style={{ display: "flex", gap: 6, alignItems: "flex-start", justifyContent: "center", backgroundColor: "rgba(2,95,201,0.05)", border: "1px solid rgba(2,95,201,0.2)", borderRadius: 12, padding: "10px 16px" }}>
+            <div style={{
+              display: "flex", gap: 6, alignItems: "flex-start", justifyContent: "center",
+              backgroundColor: "rgba(2,95,201,0.05)",
+              border: "1px solid rgba(2,95,201,0.2)",
+              borderRadius: 12, padding: "10px 16px",
+            }}>
               <Info size={16} color="#025fc9" style={{ flexShrink: 0, marginTop: 1 }} />
               <p style={{ fontSize: 12, color: "#025fc9", letterSpacing: "0.12px", margin: 0, lineHeight: "16px" }}>
                 Already have an account with another email?{" "}
@@ -104,8 +140,8 @@ export default function CreateAccountPage() {
         </div>
       </div>
 
-      {/* ===================== MOBILE LAYOUT (< lg) ===================== */}
-      <div className="flex lg:hidden flex-col flex-1 px-6 py-8 gap-6">
+      {/* ===================== MOBILE / TABLET LAYOUT (< xl) ===================== */}
+      <div className="flex xl:hidden flex-col flex-1 px-6 py-8 gap-6">
 
         {/* Logo */}
         <div className="relative w-[180px] h-[32px]">
@@ -113,8 +149,8 @@ export default function CreateAccountPage() {
         </div>
 
         {/* Illustration */}
-        <div>
-          <Image src="/images/create-account.png" alt="" width={280} height={287} priority className="object-contain" />
+        <div className="relative w-full max-w-[280px]" style={{ aspectRatio: "280 / 287" }}>
+          <Image src="/images/create-account.png" alt="" fill priority sizes="280px" className="object-contain object-top" />
         </div>
 
         {/* Tagline */}
@@ -145,8 +181,7 @@ export default function CreateAccountPage() {
                 className="flex-1 flex items-center justify-center py-2 text-[#5e5757] text-base font-medium bg-transparent border-none cursor-pointer">
                 Personal
               </button>
-              <button type="button"
-                className="flex-1 flex items-center justify-center p-2 text-[#025fc9] text-base font-medium bg-transparent cursor-default"
+              <button type="button" className="flex-1 flex items-center justify-center p-2 text-[#025fc9] text-base font-medium bg-transparent cursor-default"
                 style={{ borderBottom: "3px solid #025fc9" }}>
                 Organization
               </button>

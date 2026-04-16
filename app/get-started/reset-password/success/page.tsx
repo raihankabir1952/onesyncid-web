@@ -7,10 +7,11 @@ export default function Page() {
   const router = useRouter();
 
   return (
-    <PageLayout illustration="/images/password-reset-success.png">
+    <PageLayout illustration="/images/password-reset-success.png" leftFixed={true}>
       <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
 
-        <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0, lineHeight: "1.3" }}>
+        {/* Title — lineHeight: normal (Figma: leading-[normal], wraps naturally) */}
+        <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0, lineHeight: "normal" }}>
           You&apos;re all set! Password changed successfully.
         </p>
 
@@ -19,6 +20,7 @@ export default function Page() {
             Your password is now updated and secured. Let&apos;s get you back in.
           </p>
 
+          {/* Button + tip — gap: 12 */}
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <button
               type="button"

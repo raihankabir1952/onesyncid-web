@@ -33,7 +33,7 @@ export default function Page() {
   });
 
   return (
-    <PageLayout illustration="/images/resetpin.png">
+    <PageLayout illustration="/images/resetpin.png" leftFixed={true}>
       <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
 
         <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>
@@ -68,21 +68,17 @@ export default function Page() {
                     <span style={{ fontSize: 16, color: "#5e5757" }}>{selectedCountry.dialCode}</span>
                     <ChevronDown size={16} color="#5e5757" />
                   </button>
-
                   {countryOpen && (
                     <div style={{ position: "absolute", top: "100%", left: 0, zIndex: 50, backgroundColor: "#fff", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.15)", minWidth: 220, maxHeight: 220, overflowY: "auto" }}>
                       {COUNTRIES.map((c) => (
                         <button key={c.dialCode} type="button"
                           onClick={() => { setSelectedCountry(c); setCountryOpen(false); }}
                           style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "10px 16px", background: selectedCountry.dialCode === c.dialCode ? "rgba(2,95,201,0.05)" : "none", border: "none", cursor: "pointer", fontSize: 14, color: "#333", fontFamily: "inherit", textAlign: "left" as const }}>
-                          <span>{c.flag}</span>
-                          <span>{c.dialCode}</span>
-                          <span style={{ color: "#a09898" }}>{c.name}</span>
+                          <span>{c.flag}</span><span>{c.dialCode}</span><span style={{ color: "#a09898" }}>{c.name}</span>
                         </button>
                       ))}
                     </div>
                   )}
-
                   <input type="tel" placeholder="Enter your number" value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     style={{ flex: 1, border: "none", outline: "none", fontSize: 16, color: "#000", fontFamily: "inherit", background: "transparent" }} />

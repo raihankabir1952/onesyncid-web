@@ -7,7 +7,7 @@ interface PageLayoutProps {
   children: React.ReactNode;
   cardVerticalCenter?: boolean;
   stickyHeader?: React.ReactNode;
-  leftFixed?: boolean; // ← নতুন prop
+  leftFixed?: boolean;
 }
 
 export default function PageLayout({
@@ -20,29 +20,61 @@ export default function PageLayout({
   return (
     <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Switzer', sans-serif" }}>
 
-      {/* ===================== DESKTOP LAYOUT (lg+) ===================== */}
-      <div className="hidden lg:block relative flex-1" style={{ minHeight: 920 }}>
+      {/* ===================== DESKTOP LAYOUT (xl+ / 1280px+) =====================
+          ⚠️ Must be xl, NOT lg.
+          Left column ends at 56 + 537 = 593px.
+          Right card on a 1024px screen starts at 1024 - 60 - 600 = 364px → overlap!
+          At 1280px: 1280 - 60 - 600 = 620px → safe 27px gap.
+      */}
+      <div className="hidden xl:block relative flex-1" style={{ minHeight: 920 }}>
 
-        {/* LEFT */}
+        {/* LEFT COLUMN — Figma: left:56, top:85 (pinned) | gap:30 outer, gap:33 inner */}
         <div
           className="absolute flex flex-col"
           style={{
             left: 56,
-            top: leftFixed ? 50 : "50%",
+            top: leftFixed ? 85 : "50%",
             transform: leftFixed ? "none" : "translateY(-50%)",
             width: 537,
-            gap: 33,
+            gap: 30,
           }}
         >
-          <div style={{ position: "relative", width: 232, height: 40 }}>
-            <Image src="/images/logo.png" alt="OneSyncID" fill priority sizes="232px" className="object-contain object-left" />
+          {/* Logo */}
+          <div style={{ position: "relative", width: 232, height: 40, flexShrink: 0 }}>
+            <Image
+              src="/images/logo.png"
+              alt="OneSyncID"
+              fill
+              priority
+              sizes="232px"
+              className="object-contain object-left"
+            />
           </div>
-          <div style={{ position: "relative", width: 500, height: 514 }}>
-            <Image src={illustration} alt="" fill priority sizes="500px" className="object-contain object-top" />
+
+          {/* Illustration + tagline — inner gap:33 */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 33 }}>
+            <div style={{ position: "relative", width: 500, height: 514, flexShrink: 0 }}>
+              <Image
+                src={illustration}
+                alt=""
+                fill
+                priority
+                sizes="500px"
+                className="object-contain object-top"
+              />
+            </div>
+            <p style={{
+              color: "#0052b4",
+              fontSize: 27,
+              fontWeight: 700,
+              lineHeight: "34px",
+              letterSpacing: "0.27px",
+              whiteSpace: "nowrap",
+              margin: 0,
+            }}>
+              Verify Once. Access Everything.
+            </p>
           </div>
-          <p style={{ color: "#0052b4", fontSize: 27, fontWeight: 700, lineHeight: "34px", letterSpacing: "0.27px", whiteSpace: "nowrap" }}>
-            Verify Once. Access Everything.
-          </p>
         </div>
 
         {/* RIGHT CARD */}
@@ -60,16 +92,16 @@ export default function PageLayout({
             overflow: "hidden",
           }}
         >
-          {/* STICKY HEADER */}
+          {/* HEADER
+              flexShrink:0 keeps it pinned at top.
+              (position:sticky won't activate inside overflow:hidden — not needed here)
+          */}
           {stickyHeader && (
             <div style={{
               flexShrink: 0,
               padding: "30px 30px 20px",
               backgroundColor: "#fff",
               borderBottom: "1px solid #f0f0f0",
-              position: "sticky",
-              top: 0,
-              zIndex: 10,
             }}>
               {stickyHeader}
             </div>
@@ -97,17 +129,31 @@ export default function PageLayout({
         </div>
       </div>
 
-      {/* ===================== MOBILE LAYOUT (< lg) ===================== */}
-      <div className="flex lg:hidden flex-col flex-1 px-6 py-8 gap-6">
+      {/* ===================== MOBILE / TABLET LAYOUT (< xl / < 1280px) ===================== */}
+      <div className="flex xl:hidden flex-col flex-1 px-6 py-8 gap-6">
 
         {/* Logo */}
         <div className="relative w-[180px] h-[32px]">
-          <Image src="/images/logo.png" alt="OneSyncID" fill priority sizes="180px" className="object-contain object-left" />
+          <Image
+            src="/images/logo.png"
+            alt="OneSyncID"
+            fill
+            priority
+            sizes="180px"
+            className="object-contain object-left"
+          />
         </div>
 
-        {/* Illustration */}
-        <div>
-          <Image src={illustration} alt="" width={280} height={287} priority className="object-contain" />
+        {/* Illustration — responsive, capped at 280px so it never overflows narrow screens */}
+        <div className="relative w-full max-w-[280px]" style={{ aspectRatio: "280 / 287" }}>
+          <Image
+            src={illustration}
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 1279px) 280px"
+            className="object-contain object-top"
+          />
         </div>
 
         {/* Tagline */}
@@ -116,11 +162,13 @@ export default function PageLayout({
         </p>
 
         {/* Card */}
-        <div className="bg-white rounded-[8px] flex flex-col overflow-hidden" style={{ boxShadow: "0px 0px 5.5px 1.5px rgba(0,0,0,0.25)" }}>
-
-          {/* Sticky Header */}
+        <div
+          className="bg-white rounded-[8px] flex flex-col overflow-hidden"
+          style={{ boxShadow: "0px 0px 5.5px 1.5px rgba(0,0,0,0.25)" }}
+        >
+          {/* Header */}
           {stickyHeader && (
-            <div className="p-6 border-b border-[#f0f0f0] sticky top-0 bg-white z-10">
+            <div className="p-6 border-b border-[#f0f0f0] bg-white" style={{ flexShrink: 0 }}>
               {stickyHeader}
             </div>
           )}
@@ -149,6 +197,7 @@ export default function PageLayout({
           <ChevronDown size={24} color="#605353" />
         </button>
       </div>
+
     </div>
   );
 }

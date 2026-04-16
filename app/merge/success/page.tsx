@@ -13,11 +13,14 @@ function MergeSuccessContent() {
   const email2 = emails[1] ?? "johndoe24@yahoo.com";
 
   return (
-    <PageLayout illustration="/images/merge.png" cardVerticalCenter>
+    // cardVerticalCenter removed — Figma: card at top:75, not vertically centered
+    <PageLayout illustration="/images/merge.png" leftFixed={true}>
       <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+
         <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>
           Account merging successful!
         </p>
+
         <div style={{ display: "flex", flexDirection: "column", gap: 30 }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <p style={{ fontSize: 16, color: "#333", margin: 0 }}>
@@ -25,18 +28,23 @@ function MergeSuccessContent() {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {[email1, email2].map((email) => (
-                <div key={email} style={{ display: "flex", gap: 10, alignItems: "center", backgroundColor: "rgba(2,95,201,0.05)", borderWidth: 1, borderStyle: "solid", borderColor: "rgba(2,95,201,0.2)", borderRadius: 12, paddingLeft: 16, paddingRight: 16, paddingTop: 10, paddingBottom: 10 }}>
+                <div key={email} style={{
+                  display: "flex", gap: 10, alignItems: "center",
+                  backgroundColor: "rgba(2,95,201,0.05)",
+                  border: "1px solid rgba(2,95,201,0.2)",
+                  borderRadius: 12, padding: "10px 16px",
+                }}>
                   <Mail size={20} color="#025fc9" style={{ flexShrink: 0 }} />
-                  <p style={{ fontSize: 16, fontWeight: 500, color: "#025fc9", letterSpacing: "0.16px", lineHeight: "21px", margin: 0 }}>{email}</p>
+                  <p style={{ fontSize: 16, fontWeight: 500, color: "#025fc9", letterSpacing: "0.16px", lineHeight: "21px", margin: 0 }}>
+                    {email}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
-          <button
-            type="button"
-            onClick={() => router.push("/get-started")}
-            style={{ width: "100%", height: 48, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, borderRadius: 8, border: "none", cursor: "pointer" }}
-          >
+
+          <button type="button" onClick={() => router.push("/get-started")}
+            style={{ width: "100%", height: 48, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, borderRadius: 8, border: "none", cursor: "pointer" }}>
             Sign In Now
           </button>
         </div>

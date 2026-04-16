@@ -10,7 +10,7 @@ export interface OtpInputProps {
   status: OtpStatus;
 }
 
-const borderColor: Record<OtpStatus, string> = {
+const STATUS_BORDER_COLOR: Record<OtpStatus, string> = {
   idle: "#025fc9",
   success: "#11a75c",
   error: "#ff3838",
@@ -51,14 +51,22 @@ export default function OtpInput({ value, onChange, status }: OtpInputProps) {
   return (
     <div style={{ display: "flex", gap: 10, width: "100%", boxSizing: "border-box" }}>
       {value.map((digit, i) => {
+        // "active" = the next empty slot the user is about to type into
         const isActive = status === "idle" && i === filledCount;
-        const hasFill = digit !== "";
-        const color =
-          status !== "idle"
-            ? borderColor[status]
-            : hasFill || isActive
-            ? borderColor.idle
-            : "#d9d9d9";
+        const hasFill  = digit !== "";
+
+        // Border color:
+        //   non-idle status  → status color (green / red), all boxes
+        //   idle + filled    → blue (already entered)
+        //   idle + active    → blue (cursor position)
+        //   idle + empty     → light gray
+        const colored = status !== "idle" || hasFill || isActive;
+        const borderColorValue = colored ? STATUS_BORDER_COLOR[status] : "#d9d9d9";
+
+        // Border width:
+        //   2px  for active / filled / any non-idle state
+        //   1.5px for empty, unfocused idle boxes
+        const borderWidth = colored ? "2px" : "1.5px";
 
         return (
           <input
@@ -75,10 +83,9 @@ export default function OtpInput({ value, onChange, status }: OtpInputProps) {
             style={{
               flex: "1 1 0",
               minWidth: 0,
-              aspectRatio: "1 / 1",
-              maxHeight: 80,
+              height: 80,           // fixed height — no aspectRatio
               borderRadius: 12,
-              border: `2px solid ${color}`,
+              border: `${borderWidth} solid ${borderColorValue}`,
               backgroundColor: "#fff",
               textAlign: "center",
               fontSize: 20,

@@ -10,7 +10,7 @@ type AuthTab = "password" | "pin";
 function PinDots({ value, onFocus, error }: { value: string; onFocus: () => void; error?: boolean }) {
   return (
     <div onClick={onFocus} style={{
-      display: "flex", justifyContent: "center", gap: 16,
+      display: "flex", justifyContent: "center", gap: 8, // ← was 16, Figma: 8px gap
       paddingTop: 10, paddingBottom: 10, cursor: "text",
       borderBottom: `1px solid ${error ? "#d93025" : "#d9d9d9"}`,
     }}>
@@ -50,10 +50,11 @@ export default function Page() {
 
   const handleSignIn = () => {
     let hasError = false;
-    if (!username.trim()) { setUsernameError("Username or email is required"); hasError = true; } else { setUsernameError(""); }
+    if (!username.trim()) { setUsernameError("Username or email is required"); hasError = true; }
+    else setUsernameError("");
     if (activeTab === "password" && !password.trim()) { setPasswordError("Password is required"); hasError = true; }
     else if (activeTab === "pin" && pin.length < 6) { setPasswordError("Please enter your 6 digit PIN"); hasError = true; }
-    else { setPasswordError(""); }
+    else setPasswordError("");
     if (hasError) return;
     router.push("/get-started/trust");
   };
@@ -74,7 +75,7 @@ export default function Page() {
             {usernameError && <span style={{ color: "#d93025", fontSize: 13 }}>{usernameError}</span>}
           </div>
 
-          {/* Tabs */}
+          {/* Password/PIN tabs */}
           <div style={{ display: "flex", border: "1px solid #d9d9d9", borderRadius: 12, padding: "8px 16px", height: 53, alignItems: "center" }}>
             <button type="button" onClick={() => { setActiveTab("password"); setPasswordError(""); }} style={tabStyle("password")}>Password</button>
             <button type="button" onClick={() => { setActiveTab("pin"); setPasswordError(""); }} style={tabStyle("pin")}>PIN</button>
@@ -153,14 +154,14 @@ export default function Page() {
         </button>
       </div>
 
-      {/* Or */}
+      {/* Or divider */}
       <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
         <div style={{ flex: 1, height: 1, backgroundColor: "#d9d9d9" }} />
         <span style={{ fontSize: 14, color: "#5e5757" }}>Or</span>
         <div style={{ flex: 1, height: 1, backgroundColor: "#d9d9d9" }} />
       </div>
 
-      {/* OTP */}
+      {/* OTP button */}
       <button type="button"
         style={{ width: "100%", height: 44, border: "1.5px solid #025fc9", backgroundColor: "transparent", color: "#025fc9", fontSize: 16, fontWeight: 500, borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}>
         Sign In with One Time Password
@@ -179,20 +180,22 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Switzer', sans-serif" }}>
 
-      {/* ===================== DESKTOP (lg+) ===================== */}
-      <div className="hidden lg:flex flex-1 relative" style={{ minHeight: 750 }}>
+      {/* ===================== DESKTOP (xl+ / 1280px+) ===================== */}
+      <div className="hidden xl:flex flex-1 relative" style={{ minHeight: 920 }}>
 
-        {/* LEFT */}
-        <div className="absolute flex flex-col" style={{ left: 56, top: "50%", transform: "translateY(-50%)", width: 537, gap: 33 }}>
-          <div style={{ position: "relative", width: 232, height: 40 }}>
+        {/* LEFT — pinned: left:56, top:85 | gap:30 outer, gap:33 inner */}
+        <div className="absolute flex flex-col" style={{ left: 56, top: 85, width: 537, gap: 30 }}>
+          <div style={{ position: "relative", width: 232, height: 40, flexShrink: 0 }}>
             <Image src="/images/logo.png" alt="OneSyncID" fill priority sizes="232px" className="object-contain object-left" />
           </div>
-          <div style={{ position: "relative", width: 500, height: 514 }}>
-            <Image src="/images/signin.png" alt="" fill priority sizes="500px" className="object-contain object-top" />
+          <div style={{ display: "flex", flexDirection: "column", gap: 33 }}>
+            <div style={{ position: "relative", width: 500, height: 514, flexShrink: 0 }}>
+              <Image src="/images/signin.png" alt="" fill priority sizes="500px" className="object-contain object-top" />
+            </div>
+            <p style={{ color: "#0052b4", fontSize: 27, fontWeight: 700, lineHeight: "34px", letterSpacing: "0.27px", whiteSpace: "nowrap", margin: 0 }}>
+              Verify Once. Access Everything.
+            </p>
           </div>
-          <p style={{ color: "#0052b4", fontSize: 27, fontWeight: 700, lineHeight: "34px", letterSpacing: "0.27px", whiteSpace: "nowrap" }}>
-            Verify Once. Access Everything.
-          </p>
         </div>
 
         {/* RIGHT CARD */}
@@ -205,22 +208,12 @@ export default function Page() {
             overflow: "hidden",
           }}
         >
-          {/* ── STICKY HEADER ── */}
-          <div style={{
-            flexShrink: 0,
-            padding: "30px 30px 20px",
-            backgroundColor: "#fff",
-            borderBottom: "1px solid #f0f0f0",
-            position: "sticky",
-            top: 0,
-            zIndex: 10,
-          }}>
-            <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>
-              Sign in to your account
-            </p>
+          {/* Sticky header */}
+          <div style={{ flexShrink: 0, padding: "30px 30px 20px", backgroundColor: "#fff", borderBottom: "1px solid #f0f0f0" }}>
+            <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>Sign in to your account</p>
           </div>
 
-          {/* ── SCROLLABLE BODY ── */}
+          {/* Scrollable body */}
           <div style={{ flex: 1, overflowY: "auto", padding: "24px 30px 30px", scrollbarWidth: "thin" }}>
             {formContent}
             <div style={{ display: "flex", justifyContent: "center", paddingTop: 24 }}>
@@ -232,17 +225,17 @@ export default function Page() {
         </div>
       </div>
 
-      {/* ===================== MOBILE (< lg) ===================== */}
-      <div className="flex lg:hidden flex-col flex-1 px-6 py-8 gap-6">
+      {/* ===================== MOBILE / TABLET (< xl) ===================== */}
+      <div className="flex xl:hidden flex-col flex-1 px-6 py-8 gap-6">
 
         {/* Logo */}
         <div className="relative w-[180px] h-[32px]">
           <Image src="/images/logo.png" alt="OneSyncID" fill priority sizes="180px" className="object-contain object-left" />
         </div>
 
-        {/* Illustration */}
-        <div>
-          <Image src="/images/signin.png" alt="" width={280} height={287} priority className="object-contain" />
+        {/* Illustration — responsive */}
+        <div className="relative w-full max-w-[280px]" style={{ aspectRatio: "280 / 287" }}>
+          <Image src="/images/signin.png" alt="" fill priority sizes="280px" className="object-contain object-top" />
         </div>
 
         {/* Tagline */}
@@ -252,11 +245,9 @@ export default function Page() {
 
         {/* Card */}
         <div className="bg-white rounded-[8px] overflow-hidden flex flex-col" style={{ boxShadow: "0px 0px 5.5px 1.5px rgba(0,0,0,0.25)" }}>
-          {/* Sticky Header */}
-          <div className="p-6 border-b border-[#f0f0f0] sticky top-0 bg-white z-10">
+          <div className="p-6 border-b border-[#f0f0f0] bg-white" style={{ flexShrink: 0 }}>
             <p style={{ fontSize: 24, fontWeight: 600, color: "#000", margin: 0 }}>Sign in to your account</p>
           </div>
-          {/* Body */}
           <div className="p-6 flex flex-col gap-6">
             {formContent}
             <div className="flex justify-center pt-2">

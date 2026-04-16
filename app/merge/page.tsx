@@ -28,39 +28,21 @@ function MergeContent() {
 
   const handleContinue = () => {
     let hasError = false;
-
-    if (!username.trim()) {
-      setUsernameError("Username or email is required");
-      hasError = true;
-    } else {
-      setUsernameError("");
-    }
-
-    if (!password.trim()) {
-      setPasswordError(authMethod === "pin" ? "PIN is required" : "Password is required");
-      hasError = true;
-    } else {
-      setPasswordError("");
-    }
-
-    if (otpMethod === "phone" && !phone.trim()) {
-      setOtpFieldError("Phone number is required");
-      hasError = true;
-    } else if (otpMethod === "email" && !otpEmail.trim()) {
-      setOtpFieldError("Email address is required");
-      hasError = true;
-    } else {
-      setOtpFieldError("");
-    }
-
+    if (!username.trim()) { setUsernameError("Username or email is required"); hasError = true; }
+    else setUsernameError("");
+    if (!password.trim()) { setPasswordError(authMethod === "pin" ? "PIN is required" : "Password is required"); hasError = true; }
+    else setPasswordError("");
+    if (otpMethod === "phone" && !phone.trim()) { setOtpFieldError("Phone number is required"); hasError = true; }
+    else if (otpMethod === "email" && !otpEmail.trim()) { setOtpFieldError("Email address is required"); hasError = true; }
+    else setOtpFieldError("");
     if (hasError) return;
-
     router.push(`/merge/confirm?newEmail=${encodeURIComponent(newEmail)}&existingEmail=johndoe@gmail.com`);
   };
 
   return (
     <PageLayout
       illustration="/images/merge.png"
+      leftFixed={true}
       stickyHeader={
         <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>
           Merge accounts
@@ -69,19 +51,33 @@ function MergeContent() {
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 30 }}>
 
-        {/* Warning banner */}
-        <div style={{ display: "flex", gap: 6, alignItems: "flex-start", backgroundColor: "rgba(255,244,229,0.7)", borderWidth: 1, borderStyle: "solid", borderColor: "#fde3e0", borderRadius: 12, paddingLeft: 16, paddingRight: 16, paddingTop: 10, paddingBottom: 10 }}>
+        {/* Warning banner — gap: 3 (Figma), not 6 */}
+        <div style={{
+          display: "flex", gap: 3, alignItems: "flex-start",
+          backgroundColor: "rgba(255,244,229,0.7)",
+          border: "1px solid #fde3e0",
+          borderRadius: 12, padding: "10px 16px",
+        }}>
           <Shield size={15} color="#996500" style={{ flexShrink: 0, marginTop: 1 }} />
           <div style={{ fontSize: 12, color: "#996500", letterSpacing: "0.12px", lineHeight: "14px" }}>
-            <p style={{ margin: 0 }}>We need to confirm you own the existing account before merging.</p>
+            <p style={{ margin: 0 }}>We need to confirm you own the existing account before merging. </p>
             <p style={{ margin: 0 }}>This prevents unauthorized account takeovers.</p>
           </div>
         </div>
 
-        {/* New account info */}
-        <div style={{ backgroundColor: "rgba(2,95,201,0.05)", borderWidth: 1, borderStyle: "solid", borderColor: "rgba(2,95,201,0.2)", borderRadius: 12, paddingLeft: 16, paddingRight: 16, paddingTop: 10, paddingBottom: 10 }}>
-          <p style={{ fontSize: 16, fontWeight: 500, color: "#025fc9", letterSpacing: "0.16px", lineHeight: "21px", margin: 0 }}>NEW ACCOUNT BEING CREATED</p>
-          <p style={{ fontSize: 16, fontWeight: 500, color: "#000", letterSpacing: "0.16px", lineHeight: "21px", margin: 0 }}>{newEmail}</p>
+        {/* New account info — gap: 6 between label and email */}
+        <div style={{
+          backgroundColor: "rgba(2,95,201,0.05)",
+          border: "1px solid rgba(2,95,201,0.2)",
+          borderRadius: 12, padding: "10px 16px",
+          display: "flex", flexDirection: "column", gap: 6,
+        }}>
+          <p style={{ fontSize: 16, fontWeight: 500, color: "#025fc9", letterSpacing: "0.16px", lineHeight: "21px", margin: 0 }}>
+            NEW ACCOUNT BEING CREATED
+          </p>
+          <p style={{ fontSize: 16, fontWeight: 500, color: "#000", letterSpacing: "0.16px", lineHeight: "21px", margin: 0 }}>
+            {newEmail}
+          </p>
         </div>
 
         {/* Sign into existing account */}
@@ -93,7 +89,7 @@ function MergeContent() {
             {/* Username/email field */}
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", letterSpacing: "0.16px", margin: 0 }}>USERNAME OR EMAIL</p>
-              <div style={{ height: 44, display: "flex", alignItems: "center", borderBottomWidth: 1, borderBottomStyle: "solid", borderBottomColor: usernameError ? "#d93025" : "#d9d9d9", paddingTop: 10, paddingBottom: 10 }}>
+              <div style={{ height: 44, display: "flex", alignItems: "center", borderBottom: `1px solid ${usernameError ? "#d93025" : "#d9d9d9"}`, padding: "10px 0" }}>
                 <input
                   type="text"
                   placeholder="Enter your username or email"
@@ -106,21 +102,21 @@ function MergeContent() {
             </div>
 
             {/* Password / PIN tab */}
-            <div style={{ display: "flex", alignItems: "center", borderWidth: 1, borderStyle: "solid", borderColor: "#d9d9d9", borderRadius: 12, paddingLeft: 16, paddingRight: 16, paddingTop: 8, paddingBottom: 8 }}>
-              <button
-                type="button"
-                onClick={() => { setAuthMethod("password"); setPasswordError(""); }}
-                style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: authMethod === "password" ? 3 : 0, borderBottomStyle: "solid" as const, borderBottomColor: "#025fc9", color: authMethod === "password" ? "#025fc9" : "#5e5757", fontSize: 16, fontWeight: 500, background: "none", cursor: "pointer" as const }}
-              >
-                Password
-              </button>
-              <button
-                type="button"
-                onClick={() => { setAuthMethod("pin"); setPasswordError(""); }}
-                style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: authMethod === "pin" ? 3 : 0, borderBottomStyle: "solid" as const, borderBottomColor: "#025fc9", color: authMethod === "pin" ? "#025fc9" : "#5e5757", fontSize: 16, fontWeight: 500, background: "none", cursor: "pointer" as const }}
-              >
-                PIN
-              </button>
+            <div style={{ display: "flex", alignItems: "center", border: "1px solid #d9d9d9", borderRadius: 12, padding: "8px 16px" }}>
+              {(["password", "pin"] as AuthMethod[]).map((method) => (
+                <button key={method} type="button"
+                  onClick={() => { setAuthMethod(method); setPasswordError(""); }}
+                  style={{
+                    flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
+                    padding: 8, background: "none",
+                    border: "none",
+                    borderBottom: authMethod === method ? "3px solid #025fc9" : "none",
+                    color: authMethod === method ? "#025fc9" : "#5e5757",
+                    fontSize: 16, fontWeight: 500, cursor: "pointer",
+                  }}>
+                  {method === "password" ? "Password" : "PIN"}
+                </button>
+              ))}
             </div>
 
             {/* Password/PIN field */}
@@ -128,7 +124,7 @@ function MergeContent() {
               <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", letterSpacing: "0.16px", margin: 0 }}>
                 {authMethod === "password" ? "PASSWORD" : "PIN"}
               </p>
-              <div style={{ height: 44, display: "flex", alignItems: "center", borderBottomWidth: 1, borderBottomStyle: "solid", borderBottomColor: passwordError ? "#d93025" : "#d9d9d9", paddingTop: 10, paddingBottom: 10 }}>
+              <div style={{ height: 44, display: "flex", alignItems: "center", borderBottom: `1px solid ${passwordError ? "#d93025" : "#d9d9d9"}`, padding: "10px 0" }}>
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder={authMethod === "password" ? "Enter your password" : "Enter your PIN"}
@@ -145,11 +141,9 @@ function MergeContent() {
 
             {/* Forgot password / PIN */}
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <button
-                type="button"
+              <button type="button"
                 onClick={() => router.push(authMethod === "pin" ? "/get-started/reset-pin" : "/get-started/reset-password")}
-                style={{ fontSize: 14, color: "#0052b4", background: "none", border: "none", cursor: "pointer", padding: 0 }}
-              >
+                style={{ fontSize: 14, color: "#0052b4", background: "none", border: "none", cursor: "pointer", padding: 0 }}>
                 {authMethod === "pin" ? "Forgot PIN?" : "Forgot password?"}
               </button>
             </div>
@@ -161,28 +155,28 @@ function MergeContent() {
             <div style={{ display: "flex", flexDirection: "column", gap: 30 }}>
 
               {/* Phone/Email OTP tab */}
-              <div style={{ display: "flex", alignItems: "center", borderWidth: 1, borderStyle: "solid", borderColor: "#d9d9d9", borderRadius: 12, paddingLeft: 16, paddingRight: 16, paddingTop: 8, paddingBottom: 8 }}>
-                <button
-                  type="button"
-                  onClick={() => { setOtpMethod("phone"); setOtpFieldError(""); }}
-                  style={{ flex: 1, display: "flex", gap: 8, alignItems: "center", justifyContent: "center", padding: 8, borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: otpMethod === "phone" ? 3 : 0, borderBottomStyle: "solid" as const, borderBottomColor: "#025fc9", color: otpMethod === "phone" ? "#025fc9" : "#5e5757", fontSize: 16, fontWeight: 500, background: "none", cursor: "pointer" as const }}
-                >
-                  <Phone size={20} /> Phone
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { setOtpMethod("email"); setOtpFieldError(""); }}
-                  style={{ flex: 1, display: "flex", gap: 8, alignItems: "center", justifyContent: "center", padding: 8, borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: otpMethod === "email" ? 3 : 0, borderBottomStyle: "solid" as const, borderBottomColor: "#025fc9", color: otpMethod === "email" ? "#025fc9" : "#5e5757", fontSize: 16, fontWeight: 500, background: "none", cursor: "pointer" as const }}
-                >
-                  <Mail size={20} /> Email
-                </button>
+              <div style={{ display: "flex", alignItems: "center", border: "1px solid #d9d9d9", borderRadius: 12, padding: "8px 16px" }}>
+                {(["phone", "email"] as OtpMethod[]).map((method) => (
+                  <button key={method} type="button"
+                    onClick={() => { setOtpMethod(method); setOtpFieldError(""); }}
+                    style={{
+                      flex: 1, display: "flex", gap: 8, alignItems: "center", justifyContent: "center",
+                      padding: 8, background: "none", border: "none",
+                      borderBottom: otpMethod === method ? "3px solid #025fc9" : "none",
+                      color: otpMethod === method ? "#025fc9" : "#5e5757",
+                      fontSize: 16, fontWeight: 500, cursor: "pointer",
+                    }}>
+                    {method === "phone" ? <Phone size={20} /> : <Mail size={20} />}
+                    {method === "phone" ? "Phone" : "Email"}
+                  </button>
+                ))}
               </div>
 
               {/* Phone input */}
               {otpMethod === "phone" ? (
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", letterSpacing: "0.16px", margin: 0 }}>PHONE NUMBER</p>
-                  <div style={{ height: 44, display: "flex", alignItems: "center", gap: 20, borderBottomWidth: 1, borderBottomStyle: "solid", borderBottomColor: otpFieldError ? "#d93025" : "#d9d9d9" }}>
+                  <div style={{ height: 44, display: "flex", alignItems: "center", gap: 20, borderBottom: `1px solid ${otpFieldError ? "#d93025" : "#d9d9d9"}` }}>
                     <button type="button" style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", cursor: "pointer", flexShrink: 0 }}>
                       <div style={{ position: "relative", width: 30, height: 20 }}>
                         <Image src="/images/flag.png" alt="BD" fill sizes="30px" className="object-cover rounded-sm" />
@@ -204,7 +198,7 @@ function MergeContent() {
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", letterSpacing: "0.16px", margin: 0 }}>EMAIL ADDRESS</p>
-                  <div style={{ height: 44, display: "flex", alignItems: "center", borderBottomWidth: 1, borderBottomStyle: "solid", borderBottomColor: otpFieldError ? "#d93025" : "#d9d9d9" }}>
+                  <div style={{ height: 44, display: "flex", alignItems: "center", borderBottom: `1px solid ${otpFieldError ? "#d93025" : "#d9d9d9"}` }}>
                     <input
                       type="email"
                       placeholder="Enter your email address"
@@ -221,21 +215,15 @@ function MergeContent() {
         </div>
 
         {/* Continue */}
-        <button
-          type="button"
-          onClick={handleContinue}
-          style={{ width: "100%", height: 44, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, borderRadius: 8, border: "none", cursor: "pointer" }}
-        >
+        <button type="button" onClick={handleContinue}
+          style={{ width: "100%", height: 44, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, borderRadius: 8, border: "none", cursor: "pointer" }}>
           Continue
         </button>
 
         {/* Back */}
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <button
-            type="button"
-            onClick={() => router.back()}
-            style={{ fontSize: 16, color: "#5e5757", background: "none", border: "none", cursor: "pointer" }}
-          >
+          <button type="button" onClick={() => router.back()}
+            style={{ fontSize: 16, color: "#5e5757", background: "none", border: "none", cursor: "pointer" }}>
             Back
           </button>
         </div>

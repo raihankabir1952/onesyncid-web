@@ -8,10 +8,10 @@ export default function MergeCancelledPage() {
   const router = useRouter();
 
   return (
-    <PageLayout illustration="/images/merge-cancel.png" cardVerticalCenter>
+    // cardVerticalCenter removed — Figma: card at top:75, not vertically centered
+    <PageLayout illustration="/images/merge-cancel.png" leftFixed={true}>
       <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
 
-        {/* Title */}
         <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>
           Merge cancelled
         </p>
@@ -21,12 +21,8 @@ export default function MergeCancelledPage() {
             No changes were made. Your accounts remain separate and independent.
           </p>
 
-          {/* Continue to account creation */}
-          <button
-            type="button"
-            onClick={() => router.push("/create-account/personal")}
-            style={{ width: "100%", height: 44, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, borderRadius: 8, border: "none", cursor: "pointer" }}
-          >
+          <button type="button" onClick={() => router.push("/create-account/personal")}
+            style={{ width: "100%", height: 44, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, borderRadius: 8, border: "none", cursor: "pointer" }}>
             Continue to Account Creation
           </button>
         </div>

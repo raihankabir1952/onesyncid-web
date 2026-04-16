@@ -35,7 +35,7 @@ export default function Page() {
   const allMet = Object.values(reqs).every(Boolean);
 
   return (
-    <PageLayout illustration="/images/reset-password.png">
+    <PageLayout illustration="/images/reset-password.png" leftFixed={true}>
       <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
 
         <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>
@@ -47,6 +47,7 @@ export default function Page() {
             Your new password must be different from your previous passwords
           </p>
 
+          {/* Fields — gap:20 between PASSWORD, requirements (when shown), CONFIRM */}
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
 
             {/* PASSWORD */}
@@ -68,7 +69,7 @@ export default function Page() {
               </div>
             </div>
 
-            {/* PASSWORD REQUIREMENTS */}
+            {/* PASSWORD REQUIREMENTS — only shown when typing */}
             {typed && (
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>
@@ -76,11 +77,11 @@ export default function Page() {
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                   {[
-                    { label: "Minimum 8 characters", met: reqs.minLength },
-                    { label: "One uppercase character", met: reqs.uppercase },
-                    { label: "One lowercase character", met: reqs.lowercase },
-                    { label: "One special character", met: reqs.special },
-                    { label: "One number", met: reqs.number },
+                    { label: "Minimum 8 characters",    met: reqs.minLength  },
+                    { label: "One uppercase character",  met: reqs.uppercase  },
+                    { label: "One lowercase character",  met: reqs.lowercase  },
+                    { label: "One special character",    met: reqs.special    },
+                    { label: "One number",               met: reqs.number     },
                   ].map(({ label, met }) => (
                     <div key={label} style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <RequirementDot met={met} typed={typed} />
@@ -93,7 +94,7 @@ export default function Page() {
               </div>
             )}
 
-            {/* CONFIRM PASSWORD */}
+            {/* CONFIRM PASSWORD + checkbox — gap:12 between field and checkbox */}
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>

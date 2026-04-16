@@ -12,7 +12,7 @@ function PinDots({ value, inputRef, onChange }: {
   return (
     <div style={{ position: "relative" }}>
       <div onClick={() => inputRef.current?.focus()} style={{
-        display: "flex", gap: 16, justifyContent: "center",
+        display: "flex", gap: 8, justifyContent: "center", // ← gap was 16, Figma: 8px
         paddingTop: 10, paddingBottom: 10, cursor: "text",
         borderBottom: "1px solid #d9d9d9",
       }}>
@@ -33,12 +33,9 @@ function PinDots({ value, inputRef, onChange }: {
         value={value}
         onChange={(e) => onChange(e.target.value.replace(/\D/g, "").slice(0, 6))}
         style={{
-          position: "absolute",
-          top: 0, left: 0,
+          position: "absolute", top: 0, left: 0,
           width: "100%", height: "100%",
-          opacity: 0,
-          cursor: "text",
-          fontSize: 16,
+          opacity: 0, cursor: "text", fontSize: 16,
         }}
       />
     </div>
@@ -54,7 +51,7 @@ export default function Page() {
   const confirmPinRef = useRef<HTMLInputElement | null>(null);
 
   return (
-    <PageLayout illustration="/images/resetpin.png">
+    <PageLayout illustration="/images/resetpin.png" leftFixed={true}>
       <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
 
         <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>
@@ -70,18 +67,14 @@ export default function Page() {
 
             {/* NEW PIN */}
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>
-                NEW PIN
-              </p>
+              <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>NEW PIN</p>
               <PinDots value={newPin} inputRef={newPinRef} onChange={setNewPin} />
             </div>
 
             {/* CONFIRM NEW PIN */}
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>
-                  CONFIRM NEW PIN
-                </p>
+                <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>CONFIRM NEW PIN</p>
                 <PinDots value={confirmPin} inputRef={confirmPinRef} onChange={setConfirmPin} />
               </div>
 

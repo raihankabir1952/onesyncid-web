@@ -7,15 +7,15 @@ export default function Page() {
   const router = useRouter();
 
   return (
-    <PageLayout illustration="/images/welcome.png">
+    <PageLayout illustration="/images/welcome.png" leftFixed={true}>
       <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
 
-        {/* Title */}
+        {/* Title — lineHeight: normal (Figma: leading-[normal]) */}
         <div>
-          <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0, lineHeight: "1.3" }}>
+          <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0, lineHeight: "normal" }}>
             Welcome to OneSyncID.
           </p>
-          <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0, lineHeight: "1.3" }}>
+          <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0, lineHeight: "normal" }}>
             You&apos;re all set to go!
           </p>
         </div>
@@ -25,21 +25,19 @@ export default function Page() {
             Enable notifications to stay updated on your updates and alerts.
           </p>
 
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4">
+          {/* Buttons — always side-by-side (Figma: flex-row, gap:20) */}
+          <div style={{ display: "flex", flexDirection: "row", gap: 20, alignItems: "center" }}>
             <button
               type="button"
               onClick={() => router.push("/get-started")}
-              className="flex-1"
-              style={{ height: 44, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, border: "none", borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}
+              style={{ flex: 1, height: 44, backgroundColor: "#025fc9", color: "#fff", fontSize: 16, fontWeight: 500, border: "none", borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}
             >
               Yes, Keep Me Updated
             </button>
             <button
               type="button"
               onClick={() => router.push("/get-started/trust")}
-              className="flex-1"
-              style={{ height: 44, backgroundColor: "transparent", color: "#025fc9", fontSize: 16, fontWeight: 500, border: "1.5px solid #025fc9", borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}
+              style={{ flex: 1, height: 44, backgroundColor: "transparent", color: "#025fc9", fontSize: 16, fontWeight: 500, border: "1.5px solid #025fc9", borderRadius: 8, cursor: "pointer", fontFamily: "inherit" }}
             >
               Skip for Now
             </button>

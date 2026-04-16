@@ -40,7 +40,7 @@ export default function Page() {
   };
 
   return (
-    <PageLayout illustration="/images/reset-password.png">
+    <PageLayout illustration="/images/reset-password.png" leftFixed={true}>
       <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
 
         <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>
@@ -71,18 +71,14 @@ export default function Page() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   <p style={{ fontSize: 16, fontWeight: 500, color: "#5e5757", margin: 0, letterSpacing: "0.16px" }}>PHONE NUMBER</p>
                   <div style={{ height: 44, display: "flex", alignItems: "center", gap: 30, borderBottom: `1px solid ${fieldError ? "#d93025" : "#d9d9d9"}`, position: "relative" }}>
-                    <button
-                      type="button"
-                      onClick={() => setCountryOpen(!countryOpen)}
-                      style={{ display: "flex", alignItems: "center", gap: 8, background: "none", border: "none", cursor: "pointer", padding: 0, flexShrink: 0, fontFamily: "inherit" }}
-                    >
+                    <button type="button" onClick={() => setCountryOpen(!countryOpen)}
+                      style={{ display: "flex", alignItems: "center", gap: 8, background: "none", border: "none", cursor: "pointer", padding: 0, flexShrink: 0, fontFamily: "inherit" }}>
                       <div style={{ position: "relative", width: 30, height: 20, border: "0.5px solid #eee", flexShrink: 0 }}>
                         <Image src={selectedCountry.flag} alt={selectedCountry.name} fill sizes="30px" className="object-cover" />
                       </div>
                       <span style={{ fontSize: 16, color: "#5e5757" }}>{selectedCountry.dialCode}</span>
                       <ChevronDown size={16} color="#5e5757" />
                     </button>
-
                     {countryOpen && (
                       <div style={{ position: "absolute", top: "100%", left: 0, zIndex: 50, backgroundColor: "#fff", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.15)", minWidth: 220, maxHeight: 220, overflowY: "auto" }}>
                         {COUNTRIES.map((c) => (
@@ -98,7 +94,6 @@ export default function Page() {
                         ))}
                       </div>
                     )}
-
                     <input type="tel" placeholder="Enter your number" value={phoneNumber}
                       onChange={(e) => { setPhoneNumber(e.target.value); if (fieldError) setFieldError(""); }}
                       style={{ flex: 1, border: "none", outline: "none", fontSize: 16, color: "#000", fontFamily: "inherit", background: "transparent" }} />
