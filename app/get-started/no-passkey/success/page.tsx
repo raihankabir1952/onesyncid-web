@@ -7,7 +7,7 @@ export default function Page() {
   const router = useRouter();
 
   return (
-    <PageLayout illustration="/images/password-reset-success.png">
+    <PageLayout illustration="/images/password-reset-success.png" leftFixed={true}>
       <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
 
         <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>

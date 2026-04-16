@@ -176,8 +176,8 @@ export default function Page() {
           </button>
         </div>
 
-        {/* Security notice */}
-        <div style={{ display: "flex", gap: 6, alignItems: "flex-start", border: "1px solid #d9d9d9", borderRadius: 12, padding: "10px 16px" }}>
+        {/* Security notice — gap: 3 (Figma: gap-[3px]) */}
+        <div style={{ display: "flex", gap: 3, alignItems: "flex-start", border: "1px solid #d9d9d9", borderRadius: 12, padding: "10px 16px" }}>
           <Shield size={14} color="#a09898" style={{ flexShrink: 0, marginTop: 1 }} />
           <p style={{ fontSize: 12, color: "#a09898", margin: 0, lineHeight: "14px", letterSpacing: "0.12px" }}>
             Support staff will n<span style={{ color: "#5e5757" }}>ever ask for your password or full OTP. </span>

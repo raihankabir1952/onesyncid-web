@@ -7,7 +7,7 @@ export default function Page() {
   const router = useRouter();
 
   return (
-    <PageLayout illustration="/images/no-passkey-found.png">
+    <PageLayout illustration="/images/no-passkey-found.png" leftFixed={true}>
       <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
 
         <p style={{ fontSize: 30, fontWeight: 600, color: "#000", margin: 0 }}>
@@ -20,15 +20,15 @@ export default function Page() {
               Use your device&apos;s biometric authentication to create a <strong>secure passkey</strong> for this account.
             </p>
 
-            {/* Instructions */}
+            {/* Instructions — lineHeight: "16px" (Figma: leading-[16px]) */}
             <ul style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 8 }}>
-              <li style={{ fontSize: 14, color: "#5e5757", lineHeight: "1.5" }}>
+              <li style={{ fontSize: 14, color: "#5e5757", lineHeight: "16px" }}>
                 Tap Continue to launch your device&apos;s biometric prompt.
               </li>
-              <li style={{ fontSize: 14, color: "#5e5757", lineHeight: "1.5" }}>
+              <li style={{ fontSize: 14, color: "#5e5757", lineHeight: "16px" }}>
                 Authenticate with Face ID, fingerprint, or your device PIN.
               </li>
-              <li style={{ fontSize: 14, color: "#5e5757", lineHeight: "1.5" }}>
+              <li style={{ fontSize: 14, color: "#5e5757", lineHeight: "16px" }}>
                 Your passkey is stored securely on this device — never shared.
               </li>
             </ul>

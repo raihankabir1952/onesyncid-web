@@ -13,15 +13,16 @@ export default function Page() {
   const router = useRouter();
 
   return (
-    <PageLayout illustration="/images/support.png" cardVerticalCenter>
+    // cardVerticalCenter removed — Figma: card at top:75, not vertically centered
+    <PageLayout illustration="/images/support.png" leftFixed>
       <div style={{ display: "flex", flexDirection: "column", gap: 30 }}>
 
-        <p style={{ fontSize: 20, fontWeight: 600, color: "#000", margin: 0 }}>
+        <p style={{ fontSize: 20, fontWeight: 600, color: "#000", marginTop: 0, marginBottom: 0 }}>
           We didn&apos;t find any account
         </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 30 }}>
-          <p style={{ fontSize: 16, color: "#333", margin: 0 }}>
+          <p style={{ fontSize: 16, color: "#333", marginTop: 0, marginBottom: 0 }}>
             Answers this questions below to help us identify the issue.
           </p>
 

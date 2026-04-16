@@ -39,14 +39,14 @@ export default function Page() {
           <button type="button" onClick={() => router.back()}
             style={{ display: "flex", alignItems: "center", gap: 10, background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}>
             <ArrowLeft size={24} color="#025fc9" />
-            <span style={{ fontSize: 14, fontWeight: 500, color: "#025fc9", letterSpacing: "0.14px" }}>FINDING YOUR ID</span>
+            <span style={{ fontSize: 14, fontWeight: 500, color: "#025fc9" }}>FINDING YOUR ID</span>
           </button>
-          <p style={{ fontSize: 20, fontWeight: 600, color: "#000", margin: 0 }}>What is my OneSyncID</p>
+          <p style={{ fontSize: 20, fontWeight: 600, color: "#000", marginTop: 0, marginBottom: 0 }}>What is my OneSyncID</p>
         </div>
 
-        {/* Description */}
+        {/* Description + Steps */}
         <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
-          <p style={{ fontSize: 16, color: "#5e5757", margin: 0 }}>
+          <p style={{ fontSize: 16, color: "#5e5757", marginTop: 0, marginBottom: 0 }}>
             Your OneSyncID username is a unique identifier that links your account across all government and connected services.
           </p>
 
@@ -54,12 +54,18 @@ export default function Page() {
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             {STEPS.map(({ num, title, desc }) => (
               <div key={num} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <div style={{ width: 20, height: 20, backgroundColor: "rgba(2,95,201,0.1)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                {/* Number badge */}
+                <div style={{
+                  width: 20, height: 20, backgroundColor: "rgba(2,95,201,0.1)",
+                  borderRadius: 10, display: "flex", alignItems: "center",
+                  justifyContent: "center", flexShrink: 0,
+                }}>
                   <span style={{ fontSize: 14, color: "#025fc9" }}>{num}</span>
                 </div>
-                <div style={{ flex: 1 }}>
-                  <p style={{ fontSize: 16, fontWeight: 500, color: "#000", margin: 0 }}>{title}</p>
-                  <p style={{ fontSize: 14, color: "#5e5757", margin: 0, marginTop: 2 }}>{desc}</p>
+                {/* Text column — gap: 2 (Figma: gap-[2px]) */}
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 2 }}>
+                  <p style={{ fontSize: 16, fontWeight: 500, color: "#000", marginTop: 0, marginBottom: 0 }}>{title}</p>
+                  <p style={{ fontSize: 14, color: "#5e5757", marginTop: 0, marginBottom: 0 }}>{desc}</p>
                 </div>
               </div>
             ))}
