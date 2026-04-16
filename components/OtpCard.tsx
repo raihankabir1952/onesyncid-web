@@ -149,6 +149,8 @@ export default function OtpCard({ destination }: OtpCardProps) {
             cursor: "pointer",
             padding: 0,
           }}
+           onClick={() => router.push("/support")}
+
         >
           Contact Support
         </button>
